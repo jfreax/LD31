@@ -54,7 +54,7 @@ public class Player extends Actor {
         this.pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
 
         this.setSize(100f, 100f);
-        this.setPosition(50f, 50f);
+        this.setPosition(2, 2);
         this.setTouchable(Touchable.enabled);
 
         //this.setBounds(getX(), getY(), getWidth(), getHeight());
@@ -220,6 +220,10 @@ public class Player extends Actor {
 
     public int getPoints() {
         return points;
+    }
+
+    public void setPosition(int x, int y) {
+        setPosition( x * World.TILE_SIZE, y * World.TILE_SIZE );
     }
 
 }
