@@ -15,7 +15,7 @@ allprojects {
 
     version = '1.0'
     ext {
-        appName = 'No-your-usual-packman'
+        appName = 'Not-your-usual-packman'
         gdxVersion = '1.4.1'
         roboVMVersion = '1.0.0-alpha-04'
         box2DLightsVersion = '1.3'
