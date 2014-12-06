@@ -1,13 +1,11 @@
-package de.jdsoft.nyup;
+package de.jdsoft.nyup.Entities;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -16,15 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.utils.Pool;
+import de.jdsoft.nyup.Nuyp;
+import de.jdsoft.nyup.World;
 
 
-public class Player extends Actor {
-
-    private final TiledMapTileLayer wallLayer;
-    private final TiledMapTileLayer pointLayer;
-
-    private int points = 0;
-
+public class Entity extends Actor {
     public enum Direction {
         NORTH,
         EAST,
@@ -32,44 +26,35 @@ public class Player extends Actor {
         WEST
     }
 
-    private static final int FRAME_COLS = 10;
-    private float maxSpeed = 80.0f;
+    protected final TiledMapTileLayer wallLayer;
+    protected final TiledMapTileLayer pointLayer;
 
-    Texture animTexture;
-    TextureRegion[] animFrames;
-    Animation animation;
-    float stateTime;
+    protected int points = 0;
 
-    TextureRegion currentFrame;
+    protected float maxSpeed = 80.0f;
 
-    Pool<RotateToAction> pool;
+    protected static int frames;
+    protected TextureRegion[] animFrames;
+    protected Animation animation;
+
+    private float stateTime;
+    private Pool<RotateToAction> pool;
 
 
-
-    public Player(TiledMap map) {
+    public Entity(int x, int y, TiledMap map, Texture animTexture, int frames) {
         super();
 
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
         this.pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
 
-        this.setSize(100f, 100f);
-        this.setPosition(2, 2);
-        this.setTouchable(Touchable.enabled);
-
-        //this.setBounds(getX(), getY(), getWidth(), getHeight());
-
-        new MoveToAction();
-
-        this.addListener(new InputListener() {
-
-        });
+        this.setPosition(x, y);
 
         // animation setup
-        animTexture = new Texture("gfx/pacman_anim.png");
-        TextureRegion[][] tmp = TextureRegion.split(animTexture, animTexture.getWidth() / FRAME_COLS, animTexture.getHeight());
-        animFrames = new TextureRegion[FRAME_COLS];
+        Entity.frames = frames;
+        TextureRegion[][] tmp = TextureRegion.split(animTexture, animTexture.getWidth() / Entity.frames, animTexture.getHeight());
+        animFrames = new TextureRegion[Entity.frames];
         int index = 0;
-        for (int j = 0; j < FRAME_COLS; j++) {
+        for (int j = 0; j < Entity.frames; j++) {
             animFrames[index++] = tmp[0][j];
         }
         animation = new Animation(0.05f, animFrames);
@@ -92,42 +77,8 @@ public class Player extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        float delta = Gdx.graphics.getDeltaTime();
-
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
-            if (canGoTo(Direction.WEST, delta)) {
-                moveBy(-delta * maxSpeed, 0);
-            }
-            setDirection(Direction.WEST);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
-            if (canGoTo(Direction.EAST, delta)) {
-                moveBy(delta * maxSpeed, 0);
-            }
-            setDirection(Direction.EAST);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)) {
-            if (canGoTo(Direction.NORTH, delta)) {
-                moveBy(0, delta * maxSpeed);
-            }
-            setDirection(Direction.NORTH);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN)) {
-            if (canGoTo(Direction.SOUTH, delta)) {
-                moveBy(0, -delta * maxSpeed);
-            }
-            setDirection(Direction.SOUTH);
-        }
-
-        // get points
-        TiledMapTileLayer.Cell pointCell = getCollisionCell(pointLayer, getX(), getY(), true);
-        if (pointCell != null && pointCell.getTile() != null) {
-            points++;
-        }
-
-
         stateTime += Gdx.graphics.getDeltaTime();
-        currentFrame = animation.getKeyFrame(stateTime, true);
+        TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
 
         batch.draw(
                 currentFrame, getX(), getY(),
@@ -138,7 +89,7 @@ public class Player extends Actor {
     }
 
 
-    private void setDirection(Direction direction) {
+    protected void setDirection(Direction direction) {
         RotateToAction action = pool.obtain();
         action.setPool(pool);
 
@@ -166,7 +117,7 @@ public class Player extends Actor {
         this.addAction(action);
     }
 
-    private boolean canGoTo(Direction direction, float delta) {
+    protected boolean canGoTo(Direction direction, float delta) {
         float x = getX();
         float y = getY();
 
@@ -197,7 +148,7 @@ public class Player extends Actor {
         return getCollisionCell(layer, x, y, false);
     }
 
-    private TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y, boolean remove) {
+    protected TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y, boolean remove) {
         TiledMapTileLayer.Cell tmp;
 
         float SMALLER_TILE = World.TILE_SIZE-2;

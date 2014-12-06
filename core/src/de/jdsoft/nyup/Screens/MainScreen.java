@@ -5,12 +5,13 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.jdsoft.nyup.Entities.Ghost;
+import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Nuyp;
 import de.jdsoft.nyup.NuypInput;
-import de.jdsoft.nyup.Player;
+import de.jdsoft.nyup.Entities.Entity;
 import de.jdsoft.nyup.World;
 
 public class MainScreen implements Screen {
@@ -18,7 +19,7 @@ public class MainScreen implements Screen {
 
     private OrthographicCamera uiCam;
     private World world;
-    private Player player;
+    private Entity player;
 
     SpriteBatch batch;
     private BitmapFont font;
@@ -37,8 +38,9 @@ public class MainScreen implements Screen {
 
         // game world
         world = new World();
-        player = new Player(world.getMap());
+        player = new Player(2, 2, world.getMap());
         world.addActor(player);
+        world.addActor(new Ghost(10, 10, world.getMap()));
         world.setKeyboardFocus(player);
 
         // input handling
