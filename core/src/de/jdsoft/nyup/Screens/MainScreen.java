@@ -37,7 +37,7 @@ public class MainScreen implements Screen {
 
         // game world
         world = new World();
-        player = new Player();
+        player = new Player(world.getMap());
         world.addActor(player);
         world.setKeyboardFocus(player);
 

@@ -10,6 +10,8 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class World extends Stage {
+    public final static float TILE_SIZE = 16.0f;
+
     private OrthographicCamera cam;
 
     private TiledMap map;
@@ -24,7 +26,7 @@ public class World extends Stage {
 
 
         this.map = new TmxMapLoader().load("maps/level.tmx");
-        this.renderer = new OrthogonalTiledMapRenderer(map, 1f / 16f);
+        this.renderer = new OrthogonalTiledMapRenderer(map, 1f / TILE_SIZE);
     }
 
     @Override
@@ -36,5 +38,9 @@ public class World extends Stage {
         this.act(Gdx.graphics.getDeltaTime());
 
         super.draw();
+    }
+
+    public TiledMap getMap() {
+        return map;
     }
 }
