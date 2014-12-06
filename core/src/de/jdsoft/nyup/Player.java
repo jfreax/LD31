@@ -66,7 +66,7 @@ public class Player extends Actor {
         });
 
         // animation setup
-        animTexture = new Texture(Gdx.files.internal("gfx/pacman_anim.png"));
+        animTexture = new Texture("gfx/pacman_anim.png");
         TextureRegion[][] tmp = TextureRegion.split(animTexture, animTexture.getWidth() / FRAME_COLS, animTexture.getHeight());
         animFrames = new TextureRegion[FRAME_COLS];
         int index = 0;
@@ -185,6 +185,10 @@ public class Player extends Actor {
             default:
                 x -= delta * maxSpeed;
                 break;
+        }
+
+        if (y < 0.0f || x < 0.0f || y + World.TILE_SIZE >= Nuyp.WORLD_HEIGHT || x + World.TILE_SIZE >= Nuyp.WORLD_WIDTH) {
+            return false;
         }
 
         return getCollisionCell(wallLayer, x, y) == null;
