@@ -32,7 +32,7 @@ public class Player extends Actor {
         WEST
     }
 
-    private static final int FRAME_COLS = 7;
+    private static final int FRAME_COLS = 10;
     private float maxSpeed = 80.0f;
 
     Texture animTexture;
@@ -45,7 +45,6 @@ public class Player extends Actor {
     Pool<RotateToAction> pool;
 
 
-    private ShapeRenderer renderer = new ShapeRenderer();
 
     public Player(TiledMap map) {
         super();
@@ -201,7 +200,7 @@ public class Player extends Actor {
     private TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y, boolean remove) {
         TiledMapTileLayer.Cell tmp;
 
-        float SMALLER_TILE = World.TILE_SIZE-1;
+        float SMALLER_TILE = World.TILE_SIZE-2;
 
         for ( int i = 0; i <= 1; i++) {
             for ( int j = 0; j <= 1; j++) {
