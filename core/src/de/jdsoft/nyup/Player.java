@@ -20,8 +20,10 @@ import com.badlogic.gdx.utils.Pool;
 
 public class Player extends Actor {
 
-    private final TiledMap map;
     private final TiledMapTileLayer wallLayer;
+    private final TiledMapTileLayer pointLayer;
+
+    private int points = 0;
 
     public enum Direction {
         NORTH,
@@ -48,8 +50,8 @@ public class Player extends Actor {
     public Player(TiledMap map) {
         super();
 
-        this.map = map;
-        this.wallLayer = (TiledMapTileLayer) map.getLayers().get(0);
+        this.wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
+        this.pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
 
         this.setSize(100f, 100f);
         this.setPosition(50f, 50f);
@@ -118,6 +120,12 @@ public class Player extends Actor {
             setDirection(Direction.SOUTH);
         }
 
+        // get points
+        TiledMapTileLayer.Cell pointCell = getCollisionCell(pointLayer, getX(), getY(), true);
+        if (pointCell != null && pointCell.getTile() != null) {
+            points++;
+        }
+
 
         stateTime += Gdx.graphics.getDeltaTime();
         currentFrame = animation.getKeyFrame(stateTime, true);
@@ -179,9 +187,35 @@ public class Player extends Actor {
                 break;
         }
 
-        return wallLayer.getCell((int) (x / World.TILE_SIZE), (int) (y / World.TILE_SIZE)) == null &&
-                wallLayer.getCell((int) ((x + World.TILE_SIZE-1) / World.TILE_SIZE), (int) (y / World.TILE_SIZE)) == null &&
-                wallLayer.getCell((int) (x / World.TILE_SIZE), (int) ((y + World.TILE_SIZE-1) / World.TILE_SIZE)) == null &&
-                wallLayer.getCell((int) ((x + World.TILE_SIZE-1) / World.TILE_SIZE), (int) ((y + World.TILE_SIZE-1) / World.TILE_SIZE)) == null;
+        return getCollisionCell(wallLayer, x, y) == null;
     }
+
+    private TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y) {
+        return getCollisionCell(layer, x, y, false);
+    }
+
+    private TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y, boolean remove) {
+        TiledMapTileLayer.Cell tmp;
+
+        float SMALLER_TILE = World.TILE_SIZE-1;
+
+        for ( int i = 0; i <= 1; i++) {
+            for ( int j = 0; j <= 1; j++) {
+                tmp = layer.getCell((int) ((x + SMALLER_TILE*i) / World.TILE_SIZE), (int) ((y + SMALLER_TILE*j) / World.TILE_SIZE));
+                if (tmp != null) {
+                    if (remove) {
+                        layer.setCell((int) ((x + SMALLER_TILE*i) / World.TILE_SIZE), (int) ((y + SMALLER_TILE*j) / World.TILE_SIZE), null);
+                    }
+                    return tmp;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
 }
