@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class World extends Stage {
-    public final static float TILE_SIZE = 16.0f;
+    public final static float TILE_SIZE = 32.0f;
 
     private OrthographicCamera cam;
 
@@ -21,7 +21,7 @@ public class World extends Stage {
         super();
 
         cam = new OrthographicCamera();
-        cam.setToOrtho(false, 80, 45);
+        cam.setToOrtho(false, 40, 22.5f);
         cam.update();
 
 

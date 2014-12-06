@@ -33,7 +33,7 @@ public class Player extends Actor {
     }
 
     private static final int FRAME_COLS = 7;
-    private float maxSpeed = 40.0f;
+    private float maxSpeed = 80.0f;
 
     Texture animTexture;
     TextureRegion[] animFrames;
@@ -163,7 +163,7 @@ public class Player extends Actor {
                 break;
         }
 
-        action.setDuration(0.25f);
+        action.setDuration(0.15f);
         this.addAction(action);
     }
 
