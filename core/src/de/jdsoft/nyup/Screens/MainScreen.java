@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.jdsoft.nyup.Nuyp;
 import de.jdsoft.nyup.NuypInput;
+import de.jdsoft.nyup.Player;
 import de.jdsoft.nyup.World;
 
 public class MainScreen implements Screen {
@@ -19,7 +20,6 @@ public class MainScreen implements Screen {
 
     SpriteBatch batch;
     private BitmapFont font;
-    Texture img;
 
     public MainScreen (final Nuyp game) {
         this.game = game;
@@ -37,15 +37,16 @@ public class MainScreen implements Screen {
 
         //
         world = new World();
+        world.addActor(new Player());
 
+        // ui
         font = new BitmapFont();
         batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 0, 0, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // render game level
@@ -57,7 +58,6 @@ public class MainScreen implements Screen {
 
         batch.begin();
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
-        batch.draw(img, 0, 0);
         batch.end();
     }
 
