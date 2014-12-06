@@ -1,6 +1,7 @@
 package de.jdsoft.nyup;
 
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
@@ -26,13 +27,14 @@ public class World extends Stage {
         this.renderer = new OrthogonalTiledMapRenderer(map, 1f / 16f);
     }
 
-    public void render(float delta) {
+    @Override
+    public void draw() {
         cam.update();
         renderer.setView(cam);
         renderer.render();
 
-        this.act(delta);
-        this.draw();
-    }
+        this.act(Gdx.graphics.getDeltaTime());
 
+        super.draw();
+    }
 }
