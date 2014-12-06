@@ -65,6 +65,7 @@ public class MainScreen implements Screen {
 
         batch.begin();
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
+        font.draw(batch, "Points: " + player.getPoints(), 10, Gdx.graphics.getHeight() - 10);
         batch.end();
     }
 
