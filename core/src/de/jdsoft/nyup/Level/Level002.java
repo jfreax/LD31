@@ -44,56 +44,7 @@ public class Level002 extends Level000 {
             Timer.schedule(new MyTask(i), laserIntervalls[i], laserIntervalls[i]);
         }
 
-        for (int x = 0; x < pointLayer.getWidth(); x++) {
-            for (int y = 0; y < pointLayer.getHeight(); y++) {
-                pointLayer.setCell(x, y, null);
-            }
-        }
-
-        TiledMapTileLayer templatePointL = (TiledMapTileLayer) map.getLayers().get("level000");
-        overallCoinsInGame = 0;
-        for ( int x = 0; x < pointLayer.getWidth(); x++) {
-            for ( int y = 0; y < pointLayer.getHeight(); y++) {
-                TiledMapTileLayer.Cell templCell = templatePointL.getCell(x, y);
-                if (templCell!= null) {
-                    templCell.getTile().getProperties().put("type", "coin");
-                    pointLayer.setCell(x, y, templCell);
-                    overallCoinsInGame++;
-                }
-            }
-        }
-
-//        TextureRegion goldTextureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
-//        StaticTiledMapTile newGoldTile = new StaticTiledMapTile(goldTextureRegion);
-//        newGoldTile.getProperties().put("type", "gold");
-//        int numberOfGold = 200;
-//        for (int i = 0; i < numberOfGold; i++) {
-//            int x = rng.nextInt(wallLayer.getWidth());
-//            int y = rng.nextInt(wallLayer.getHeight());
-//
-//            if (wallLayer.getCell(x, y) == null) {
-//                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-//                cell.setTile(newGoldTile);
-//                pointLayer.setCell(x, y, cell);
-//            }
-//        }
-
-        TextureRegion mushroomTextureRegion = new TextureRegion(world.getMapTexture(), 128, 96, 32, 32);
-        StaticTiledMapTile mushroomTile = new StaticTiledMapTile(mushroomTextureRegion);
-        mushroomTile.getProperties().put("type", "mushroom");
-
-        int numberOfMushrooms = 10;
-        for (int i = 0; i < numberOfMushrooms; i++) {
-            int x = rng.nextInt(wallLayer.getWidth());
-            int y = rng.nextInt(wallLayer.getHeight());
-
-            if (wallLayer.getCell(x, y) == null && pointLayer.getCell(x, y) == null) {
-                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                cell.setTile(mushroomTile);
-
-                pointLayer.setCell(x, y, cell);
-            }
-        }
+        super.levelInit();
     }
 
     @Override

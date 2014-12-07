@@ -180,6 +180,11 @@ public class Level000 implements LevelRule {
             }
         }
 
+        checkWon(entity);
+    }
+
+    @Override
+    public void checkWon(Entity entity) {
         // check if we had won the game
         if (entity instanceof Player) {
 
