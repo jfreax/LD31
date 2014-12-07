@@ -11,5 +11,6 @@ public class LevelMapping {
     static  {
         map = new ArrayList<LevelRule>();
         map.add(new Level000());
+        map.add(new Level001());
     }
 }

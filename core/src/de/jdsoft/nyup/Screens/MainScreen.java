@@ -24,7 +24,6 @@ public class MainScreen implements Screen {
 
     private final Stage uiStage;
     private final  BitmapFont font;
-    private final BitmapFont fontBig;
     private final TextFlashEffect textEffect;
 
     int currentLevelNumber = 0;
@@ -55,6 +54,30 @@ public class MainScreen implements Screen {
             }
         });
 
+        world.addEndListener(new Runnable() {
+            @Override
+            public void run() {
+                CharSequence text = "YOU WON!";
+
+                if (world.isLost()) {
+                    text = "YOU LOST!";
+                }
+                textEffect.setText(text);
+                textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() / 2.f);
+
+                if (world.isLost()) {
+                    textEffect.start(null);
+                } else {
+                    textEffect.start(new Runnable() {
+                        @Override
+                        public void run() {
+                            nextLevel();
+                        }
+                    });
+                }
+            }
+        });
+
         // input handling
         input = new InputMultiplexer();
         input.addProcessor(new NuypInput(world));
@@ -63,7 +86,6 @@ public class MainScreen implements Screen {
         // ui
         uiStage = new Stage();
         font = new BitmapFont();
-        fontBig = new BitmapFont(Gdx.files.internal("fonts/chango2.fnt"));
         batch = new SpriteBatch();
 
         textEffect = new TextFlashEffect(new BitmapFont(Gdx.files.internal("fonts/chango2.fnt")), "Test");
@@ -71,6 +93,15 @@ public class MainScreen implements Screen {
         uiStage.addActor(textEffect);
 
         begin();
+    }
+
+    private void nextLevel() {
+        if (currentLevelNumber+1 < LevelMapping.map.size()) {
+            currentLevelNumber++;
+            world.setLevel(LevelMapping.map.get(currentLevelNumber));
+            world.init();
+            begin();
+        }
     }
 
     private void begin() {
@@ -105,19 +136,6 @@ public class MainScreen implements Screen {
         batch.begin();
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
         font.draw(batch, "Points: " + world.getLevel().getPlayer().getPoints(), 10, Gdx.graphics.getHeight() - 10);
-
-        if(world.isEnd()) {
-            if(world.isLost()) {
-                if (!textEffect.running() && !lostTextSet) {
-                    lostTextSet = true;
-
-                    CharSequence text = "YOU LOST";
-                    textEffect.setText(text);
-                    textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() / 2.f);
-                    textEffect.start(null);
-                }
-            }
-        }
 
         batch.end();
     }

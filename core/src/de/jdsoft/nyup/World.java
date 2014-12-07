@@ -2,7 +2,6 @@ package de.jdsoft.nyup;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -12,8 +11,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.jdsoft.nyup.Entities.Entity;
-import de.jdsoft.nyup.Entities.Ghost;
-import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Level.Level000;
 import de.jdsoft.nyup.Level.LevelRule;
 
@@ -32,6 +29,7 @@ public class World extends Stage {
     private boolean pause = true;
 
     Runnable initListener = null;
+    private Runnable endListener = null;
 
     public World() {
         super();
@@ -89,15 +87,27 @@ public class World extends Stage {
         initListener = listener;
     }
 
+    public void addEndListener(Runnable listener) {
+        endListener = listener;
+    }
+
     public void lost() {
         lost = true;
         end = true;
         pause = true;
+
+        if (endListener != null) {
+            endListener.run();
+        }
     }
 
     public void won() {
         end = true;
         pause = true;
+
+        if (endListener != null) {
+            endListener.run();
+        }
     }
 
     public void setLevel(LevelRule level) {

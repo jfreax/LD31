@@ -1,11 +1,14 @@
 package de.jdsoft.nyup.Level;
 
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
 import de.jdsoft.nyup.Entities.Entity;
 import de.jdsoft.nyup.World;
 
+import java.util.Random;
+
 public interface LevelRule {
+    Random rng = new Random();
+
     public void init(World world);
 
     public String getLevelHelp();
