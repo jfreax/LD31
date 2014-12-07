@@ -37,39 +37,22 @@ public class Ghost extends Entity {
             target = ai.nextPosition();
         }
 
-        System.out.println("Target: " + target.toString() + " | Pos: " + cellPos.toString() + " | Pos2: " + getX() + "x" + getY());
-
-        boolean moved = false;
         if (target.x < getX()) {
-           // if (canGoTo(Direction.WEST, delta)) {
-                moveBy(-delta * maxSpeed, 0);
-                moved = true;
-          //  }
+            moveBy(-delta * maxSpeed, 0);
             setDirection(Direction.WEST);
         }
         if (target.x > getX()) {
-         //   if (canGoTo(Direction.EAST, delta)) {
-                moveBy(delta * maxSpeed, 0);
-                moved = true;
-           // }
+            moveBy(delta * maxSpeed, 0);
             setDirection(Direction.EAST);
         }
         if (target.y > getY()) {
-           // if (canGoTo(Direction.NORTH, delta)) {
-                moveBy(0, delta * maxSpeed);
-                moved = true;
-          //  }
+            moveBy(0, delta * maxSpeed);
             setDirection(Direction.NORTH);
         }
-        if ( target.y < getY()) {
-          //  if (canGoTo(Direction.SOUTH, delta)) {
-                moveBy(0, -delta * maxSpeed);
-                moved = true;
-          //  }
+        if (target.y < getY()) {
+            moveBy(0, -delta * maxSpeed);
             setDirection(Direction.SOUTH);
         }
-
-
 
         super.draw(batch, parentAlpha);
     }
