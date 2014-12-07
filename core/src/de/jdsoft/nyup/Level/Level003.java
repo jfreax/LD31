@@ -27,9 +27,7 @@ public class Level003 extends Level002 {
     }
 
     @Override
-    public void act(Entity entity, float delta) {
-        super.act(entity, delta);
-
+    public void checkWonLost(Entity entity) {
         if (entity instanceof Player) {
             TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
 
@@ -37,11 +35,6 @@ public class Level003 extends Level002 {
                 world.won();
             }
         }
-    }
-
-    @Override
-    public void checkWon(Entity entity) {
-        //super.checkWon(entity);
     }
 
     @Override

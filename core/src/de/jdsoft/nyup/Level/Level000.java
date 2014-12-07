@@ -18,9 +18,6 @@ import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.World;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Level000 implements LevelRule {
     protected World world;
     protected TiledMap map;
@@ -180,11 +177,11 @@ public class Level000 implements LevelRule {
             }
         }
 
-        checkWon(entity);
+        checkWonLost(entity);
     }
 
     @Override
-    public void checkWon(Entity entity) {
+    public void checkWonLost(Entity entity) {
         // check if we had won the game
         if (entity instanceof Player) {
 

@@ -1,13 +1,9 @@
 package de.jdsoft.nyup.Level;
 
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.utils.Timer;
 import de.jdsoft.nyup.Entities.Entity;
-import de.jdsoft.nyup.Entities.Ghost;
 import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.World;
@@ -53,8 +49,8 @@ public class Level002 extends Level001 {
     }
 
     @Override
-    public void act(Entity entity, float delta) {
-        super.act(entity, delta);
+    public void checkWonLost(Entity entity) {
+        super.checkWonLost(entity);
 
         if (entity instanceof Player) {
             // die on laser collision

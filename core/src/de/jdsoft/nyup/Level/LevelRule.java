@@ -16,7 +16,7 @@ public interface LevelRule {
     public String getLevelHelp();
 
     public void act(Entity entity, float delta);
-    public void checkWon(Entity entity);
+    public void checkWonLost(Entity entity);
 
     public void onInput(Entity entity, int keyCode);
     public boolean onEntityCollision(Entity entity1, Entity entity2);

@@ -23,6 +23,7 @@ public class Entity extends Actor {
     private Rectangle bounds = new Rectangle();
     private int lifes = 1;
 
+
     public enum Direction {
         NORTH,
         EAST,
@@ -188,6 +189,10 @@ public class Entity extends Actor {
 
     public int getLifes() {
         return lifes;
+    }
+
+    public void setLifes(int lifes) {
+        this.lifes = lifes;
     }
 
     public void setPosition(int x, int y) {
