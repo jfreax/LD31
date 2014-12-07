@@ -1,10 +1,12 @@
 package de.jdsoft.nyup;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.AlphaAction;
 import com.badlogic.gdx.scenes.scene2d.actions.ScaleToAction;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -44,40 +46,48 @@ public class TextFlashEffect extends Actor implements Disposable {
 
             float scale = getScaleX() - 0.2f;
             float x = getX() - (bounds.width / 2.f);
-            float y = getY() - (bounds.height / 2.f);
+            float y = getY() + (bounds.height / 2.f);
 
-            float max = (10 - deltaSinceRun*10);
+            float max = (10 - deltaSinceRun * 10);
             for (int i = 0; i < max; i++) {
                 scale += 0.02f;
 
                 font.setScale(scale);
-                font.setColor(1, 1, 1, i/10.f);
-                font.draw(batch, text, getX() - (bounds.width / 2.f), getY() - (bounds.height / 2.f));
+                font.setColor(1, 1, 1, i / 10.f);
+
+                font.drawMultiLine(batch, text, getX() - (bounds.width / 2.f), getY() + (bounds.height / 2.f));
             }
 
             font.setScale(getScaleX());
-            font.setColor(1, 1, 1, 1);
-            font.draw(batch, text, x, y);
+            font.setColor(1, 1, 1, getColor().a);
+            font.drawMultiLine(batch, text, x, y);
         }
     }
 
-    public void start() {
-        start(0.1f);
+    public void start(Runnable callback) {
+        start(0.1f, callback);
     }
 
-    public void start(float startScale) {
+    public void start(float startScale, Runnable callback) {
         this.setScale(startScale);
+
+        Runnable finishRunnable = new Runnable() {
+            @Override
+            public void run() {
+                running = false;
+            }
+        };
 
         ScaleToAction action = new ScaleToAction();
         action.setScale(1.0f);
         action.setDuration(0.9f);
         action.setInterpolation(Interpolation.swingOut);
-        this.addAction(sequence(action, run(new Runnable() {
-            @Override
-            public void run() {
-                running = false;
-            }
-        })));
+
+        if (callback == null) {
+            this.addAction(sequence(action, run(finishRunnable)));
+        } else {
+            this.addAction(sequence(action, run(finishRunnable), run(callback)));
+        }
 
         runs++;
         running = true;
@@ -86,6 +96,21 @@ public class TextFlashEffect extends Actor implements Disposable {
         show();
     }
 
+    public void fadeOut() {
+        AlphaAction action = new AlphaAction();
+        action.setAlpha(0.0f);
+        action.setDuration(1.8f);
+        action.setInterpolation(Interpolation.exp10In);
+
+        this.addAction(sequence(action, run(new Runnable() {
+            @Override
+            public void run() {
+                hide();
+                Color c = getColor();
+                setColor(c.r, c.g, c.g, 1.0f);
+            }
+        })));
+    }
 
     @Override
     public void dispose() {
@@ -106,10 +131,11 @@ public class TextFlashEffect extends Actor implements Disposable {
 
     public void setText(CharSequence text) {
         this.text = text;
-        bounds = font.getBounds(text);
+        bounds = font.getMultiLineBounds(text);
     }
 
     public int runs() {
         return runs;
     }
+
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 public class LevelMapping {
 
-    private static final List<LevelRule> map;
+    public static final List<LevelRule> map;
 
     static  {
         map = new ArrayList<LevelRule>();

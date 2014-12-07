@@ -31,6 +31,10 @@ public class World extends Stage {
     private boolean lost = false;
     private Player player;
 
+    private boolean pause = true;
+
+    Runnable initListener = null;
+
     public World() {
         super();
 
@@ -59,6 +63,10 @@ public class World extends Stage {
         setKeyboardFocus(player);
 
         this.level.init(this);
+
+        if (initListener != null) {
+            initListener.run();
+        }
     }
 
     @Override
@@ -67,7 +75,7 @@ public class World extends Stage {
         renderer.setView(cam);
         renderer.render();
 
-        if (!end) {
+        if (!end && !pause) {
 
             // check collisions
             for (Actor actor1 : getActors().toArray()) {
@@ -84,6 +92,10 @@ public class World extends Stage {
         }
 
         super.draw();
+    }
+
+    public void addInitListener(Runnable listener) {
+        initListener = listener;
     }
 
     public void lost() {
@@ -117,5 +129,13 @@ public class World extends Stage {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void pause() {
+        pause = true;
+    }
+
+    public void start() {
+        pause = false;
     }
 }

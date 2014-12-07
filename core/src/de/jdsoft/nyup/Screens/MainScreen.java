@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import de.jdsoft.nyup.Level.LevelMapping;
 import de.jdsoft.nyup.Nuyp;
 import de.jdsoft.nyup.NuypInput;
 import de.jdsoft.nyup.TextFlashEffect;
@@ -15,8 +16,6 @@ import de.jdsoft.nyup.World;
 
 public class MainScreen implements Screen {
     final Nuyp game;
-
-
 
     private OrthographicCamera uiCam;
     private World world;
@@ -28,11 +27,12 @@ public class MainScreen implements Screen {
     private final BitmapFont fontBig;
     private final TextFlashEffect textEffect;
 
+    int currentLevelNumber = 0;
+
     InputMultiplexer input;
 
     public MainScreen (final Nuyp game) {
         this.game = game;
-
 
         // setup camera
         float w = Gdx.graphics.getWidth();
@@ -44,6 +44,15 @@ public class MainScreen implements Screen {
         // game world
         world = new World();
         world.init();
+        world.pause();
+
+        world.addInitListener(new Runnable() {
+            @Override
+            public void run() {
+                lostTextSet = false;
+                textEffect.hide();
+            }
+        });
 
         // input handling
         input = new InputMultiplexer();
@@ -57,9 +66,27 @@ public class MainScreen implements Screen {
         batch = new SpriteBatch();
 
         textEffect = new TextFlashEffect(new BitmapFont(Gdx.files.internal("fonts/chango2.fnt")), "Test");
+        textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() / 2.f);
+
         textEffect.hide();
         uiStage.addActor(textEffect);
+
+        begin();
     }
+
+    private void begin() {
+
+        textEffect.setText(LevelMapping.map.get(currentLevelNumber).getLevelHelp());
+        textEffect.start(new Runnable() {
+            @Override
+            public void run() {
+                textEffect.fadeOut();
+                world.start();
+            }
+        });
+    }
+
+    boolean lostTextSet = false;
 
     @Override
     public void render(float delta) {
@@ -81,12 +108,12 @@ public class MainScreen implements Screen {
 
         if(world.isEnd()) {
             if(world.isLost()) {
-                if (textEffect.runs() == 0) {
+                if (!textEffect.running() && !lostTextSet) {
+                    lostTextSet = true;
+
                     CharSequence text = "YOU LOST";
                     textEffect.setText(text);
-                    textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() / 2.f);
-
-                    textEffect.start();
+                    textEffect.start(null);
                 }
             }
         }

@@ -70,7 +70,7 @@ public class Level000 implements LevelRule {
 
     @Override
     public String getLevelHelp() {
-        return "Classic Pacman";
+        return "Level 0:\nClassic Pacman";
     }
 
     @Override
