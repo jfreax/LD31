@@ -29,8 +29,6 @@ public class World extends Stage {
 
     private boolean end = false;
     private boolean lost = false;
-    private Player player;
-
     private boolean pause = true;
 
     Runnable initListener = null;
@@ -54,13 +52,6 @@ public class World extends Stage {
         lost = false;
 
         this.getActors().clear();
-
-        player = new Player(2, 3, getMap(), level);
-        addActor(player);
-        addActor(new Ghost(2, 5, new Color(1.0f, 0.5f, 0.4f, 1f), getMap(), level));
-        addActor(new Ghost(14, 12, new Color(0.5f, 1.0f, 0.6f, 1.0f), getMap(), level));
-        addActor(new Ghost(14, 13, new Color(0.5f, 0.6f, 1.0f, 1.0f), getMap(), level));
-        setKeyboardFocus(player);
 
         this.level.init(this);
 
@@ -129,15 +120,15 @@ public class World extends Stage {
         return lost;
     }
 
-    public Player getPlayer() {
-        return player;
-    }
-
     public void pause() {
         pause = true;
     }
 
     public void start() {
         pause = false;
+    }
+
+    public LevelRule getLevel() {
+        return level;
     }
 }

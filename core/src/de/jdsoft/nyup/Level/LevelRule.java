@@ -20,4 +20,6 @@ public interface LevelRule {
      * @return true if walkable
      */
     public boolean onWallCollision(Entity entity1);
+
+    Entity getPlayer();
 }

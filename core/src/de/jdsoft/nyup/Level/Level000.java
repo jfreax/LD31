@@ -3,6 +3,7 @@ package de.jdsoft.nyup.Level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -20,11 +21,14 @@ public class Level000 implements LevelRule {
 
     private World world;
     TiledMap map;
+    private Player player;
 
     @Override
     public void init(World world) {
         this.world = world;
         this.map = world.getMap();
+
+        this.initActors();
 
         TiledMapTileLayer wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
         TiledMapTileLayer pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
@@ -35,20 +39,29 @@ public class Level000 implements LevelRule {
             }
         }
 
-        TextureRegion goldTextureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
-        StaticTiledMapTile newGoldTile = new StaticTiledMapTile(goldTextureRegion);
-        newGoldTile.getProperties().put("type", "gold");
-        int numberOfGold = 200;
-        for (int i = 0; i < numberOfGold; i++) {
-            int x = rng.nextInt(wallLayer.getWidth());
-            int y = rng.nextInt(wallLayer.getHeight());
-
-            if (wallLayer.getCell(x, y) == null) {
-                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                cell.setTile(newGoldTile);
-                pointLayer.setCell(x, y, cell);
+        TiledMapTileLayer templatePointL = (TiledMapTileLayer) map.getLayers().get("level000");
+        for ( int x = 0; x < pointLayer.getWidth(); x++) {
+            for ( int y = 0; y < pointLayer.getHeight(); y++) {
+                if (templatePointL.getCell(x, y) != null) {
+                    pointLayer.setCell(x, y, templatePointL.getCell(x, y));
+                }
             }
         }
+
+//        TextureRegion goldTextureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
+//        StaticTiledMapTile newGoldTile = new StaticTiledMapTile(goldTextureRegion);
+//        newGoldTile.getProperties().put("type", "gold");
+//        int numberOfGold = 200;
+//        for (int i = 0; i < numberOfGold; i++) {
+//            int x = rng.nextInt(wallLayer.getWidth());
+//            int y = rng.nextInt(wallLayer.getHeight());
+//
+//            if (wallLayer.getCell(x, y) == null) {
+//                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+//                cell.setTile(newGoldTile);
+//                pointLayer.setCell(x, y, cell);
+//            }
+//        }
 
         TextureRegion mushroomTextureRegion = new TextureRegion(world.getMapTexture(), 128, 96, 32, 32);
         StaticTiledMapTile mushroomTile = new StaticTiledMapTile(mushroomTextureRegion);
@@ -66,6 +79,16 @@ public class Level000 implements LevelRule {
                 pointLayer.setCell(x, y, cell);
             }
         }
+    }
+
+    public void initActors() {
+        player = new Player(1, 3, map, this);
+        world.addActor(player);
+        world.addActor(new Ghost(2, 5, new Color(1.0f, 0.5f, 0.4f, 1f), map, this));
+        world.addActor(new Ghost(14, 12, new Color(0.5f, 1.0f, 0.6f, 1.0f), map, this));
+        world.addActor(new Ghost(14, 13, new Color(0.5f, 0.6f, 1.0f, 1.0f), map, this));
+        world.setKeyboardFocus(player);
+
     }
 
     @Override
@@ -108,7 +131,7 @@ public class Level000 implements LevelRule {
             // get points
             TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(player.pointLayer, player.getX(), player.getY(), true);
             if (pointCell != null && pointCell.getTile() != null) {
-                if (pointCell.getTile().getProperties().get("type").equals("mushroom")) {
+                if (pointCell.getTile().getProperties().containsKey("type") && pointCell.getTile().getProperties().get("type").equals("mushroom")) {
                     // yeahh, a mushroom
                 }
                 player.points++;
@@ -139,5 +162,10 @@ public class Level000 implements LevelRule {
     @Override
     public boolean onWallCollision(Entity entity1) {
         return false;
+    }
+
+    @Override
+    public Entity getPlayer() {
+        return player;
     }
 }

@@ -67,7 +67,7 @@ public class GhostAI implements EntityAI {
     private void markVisited(int x, int y) {
         float[][] buffered = Utils.copy2DArray(grid);
 
-        buffered[x][y] = 1.0f;
+        buffered[x][y] += 1.0f;
 
         diffuse(grid, buffered);
         Utils.copyInto2DArray(buffered, grid);
