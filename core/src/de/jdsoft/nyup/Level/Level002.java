@@ -40,7 +40,7 @@ public class Level002 extends Level001 {
             initLaserAnimation(lLayer, 0.03f);
 
             laserLayer[i] = lLayer;
-            laserIntervalls[i] = (rng.nextFloat()+0.1f) * 8.0f;
+            laserIntervalls[i] = (rng.nextFloat()+0.2f) * 8.0f;
             Timer.schedule(new MyTask(i), laserIntervalls[i], laserIntervalls[i]);
         }
 
