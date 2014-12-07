@@ -21,6 +21,7 @@ import de.jdsoft.nyup.World;
 public class Entity extends Actor {
     private LevelRule level;
     private Rectangle bounds = new Rectangle();
+    private int lifes = 1;
 
     public enum Direction {
         NORTH,
@@ -183,6 +184,10 @@ public class Entity extends Actor {
 
     public int getPoints() {
         return points;
+    }
+
+    public int getLifes() {
+        return lifes;
     }
 
     public void setPosition(int x, int y) {

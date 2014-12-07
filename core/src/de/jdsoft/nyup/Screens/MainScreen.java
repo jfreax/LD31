@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.jdsoft.nyup.Level.LevelMapping;
@@ -28,7 +29,9 @@ public class MainScreen implements Screen {
     private final Stage uiStage;
     private final BitmapFont font;
     private final TextFlashEffect textEffect;
-    private final Texture coinTexture;
+
+    private final TextureRegion coinTexture;
+    private final TextureRegion heartTexture;
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -98,7 +101,8 @@ public class MainScreen implements Screen {
         textEffect.hide();
         uiStage.addActor(textEffect);
 
-        coinTexture = new Texture("gfx/coin.png");
+        coinTexture = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
+        heartTexture = new TextureRegion(world.getMapTexture(), 160, 64, 32, 32);
 
         begin();
     }
@@ -152,13 +156,19 @@ public class MainScreen implements Screen {
         // fps
         font.setColor(1, 1, 1, 1);
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 8, 20);
+
         // coins
-        batch.draw(coinTexture, 8, Gdx.graphics.getHeight() - 40);
+        batch.draw(coinTexture, 6, Gdx.graphics.getHeight() - 40);
         font.setColor(Color.valueOf("ffdf7d"));
         font.draw(batch, String.valueOf(world.getLevel().getPlayer().getPoints()), 42, Gdx.graphics.getHeight() - 16);
+
+        // lives
+        batch.draw(heartTexture, 64, Gdx.graphics.getHeight() - 40);
+        font.setColor(Color.valueOf("d95763"));
+        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getLifes()), 98, Gdx.graphics.getHeight() - 16);
+
+
         batch.end();
-
-
     }
 
     @Override
