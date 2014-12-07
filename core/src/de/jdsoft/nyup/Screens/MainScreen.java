@@ -44,13 +44,14 @@ public class MainScreen implements Screen {
         // game world
         world = new World();
         world.init();
-        world.pause();
 
         world.addInitListener(new Runnable() {
             @Override
             public void run() {
                 lostTextSet = false;
                 textEffect.hide();
+
+                begin();
             }
         });
 
@@ -66,8 +67,6 @@ public class MainScreen implements Screen {
         batch = new SpriteBatch();
 
         textEffect = new TextFlashEffect(new BitmapFont(Gdx.files.internal("fonts/chango2.fnt")), "Test");
-        textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() / 2.f);
-
         textEffect.hide();
         uiStage.addActor(textEffect);
 
@@ -77,6 +76,7 @@ public class MainScreen implements Screen {
     private void begin() {
 
         textEffect.setText(LevelMapping.map.get(currentLevelNumber).getLevelHelp());
+        textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() * 0.8f);
         textEffect.start(new Runnable() {
             @Override
             public void run() {
@@ -113,6 +113,7 @@ public class MainScreen implements Screen {
 
                     CharSequence text = "YOU LOST";
                     textEffect.setText(text);
+                    textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() / 2.f);
                     textEffect.start(null);
                 }
             }

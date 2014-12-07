@@ -101,10 +101,12 @@ public class World extends Stage {
     public void lost() {
         lost = true;
         end = true;
+        pause = true;
     }
 
     public void won() {
         end = true;
+        pause = true;
     }
 
     public void setLevel(LevelRule level) {
