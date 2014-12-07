@@ -8,4 +8,7 @@
 	<entry-point class='de.jdsoft.nyup.client.HtmlLauncher' />
 	
 	<set-configuration-property name="gdx.assetpath" value="../android/assets" />
+
+	<!-- https://gwt.googlesource.com/gwt/+/master/user/src/com/google/gwt/useragent/UserAgent.gwt.xml -->
+	<set-property name="user.agent" value="gecko1_8"/>
 </module>
