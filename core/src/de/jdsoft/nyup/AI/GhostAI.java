@@ -4,6 +4,9 @@ package de.jdsoft.nyup.AI;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
+import de.jdsoft.nyup.Entities.Entity;
+import de.jdsoft.nyup.Entities.Ghost;
+import de.jdsoft.nyup.Level.LevelRule;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.Utils.Utils;
 import de.jdsoft.nyup.World;
@@ -18,9 +21,13 @@ public class GhostAI implements EntityAI {
     private TiledMapTileLayer wallLayer;
 
     float[][] grid;
+    private Ghost ghost;
+    private LevelRule level;
 
     @Override
-    public void init(float x, float y, TiledMap map) {
+    public void init(float x, float y, TiledMap map, Entity ghost, LevelRule level) {
+        this.ghost = (Ghost) ghost;
+        this.level = level;
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
         grid = new float[wallLayer.getWidth()][wallLayer.getHeight()];
 
@@ -37,7 +44,7 @@ public class GhostAI implements EntityAI {
             for (int j = -step; j <= step; j += step) {
                 if (posX + i >= 0 && posX + i < (wallLayer.getWidth() - 1) * World.TILE_SIZE && posY + j >= 0 &&
                         posY + j < (wallLayer.getHeight() - 1) * World.TILE_SIZE) {
-                    if (Collision.getCollisionCell(wallLayer, (posX + i), (posY + j)) == null) {
+                    if (Collision.getCollisionCell(wallLayer, (posX + i), (posY + j)) == null || level.onWallCollision(ghost)) {
                         float value = heuristic((int) ((posX + i) / World.TILE_SIZE), (int) ((posY + j) / World.TILE_SIZE));
 
                         if (value < minValue) {

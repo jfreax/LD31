@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Vector2;
 import de.jdsoft.nyup.AI.EntityAI;
 import de.jdsoft.nyup.AI.GhostAI;
+import de.jdsoft.nyup.Level.LevelRule;
 import de.jdsoft.nyup.Utils.Vector2i;
 
 public class Ghost extends Entity {
@@ -17,13 +18,13 @@ public class Ghost extends Entity {
     Vector2 target = null;
 
 
-    public Ghost(int x, int y, TiledMap map) {
-        super(x, y, map, new Texture("gfx/ghost.png"), 1);
+    public Ghost(int x, int y, TiledMap map, LevelRule level) {
+        super(x, y, map, new Texture("gfx/ghost.png"), 1, level);
 
         maxSpeed = 50;
         rotationSpeed = 0.08f;
 
-        ai.init(getX(), getY(), map);
+        ai.init(getX(), getY(), map, this, level);
         target = ai.nextPosition();
     }
 
@@ -31,7 +32,6 @@ public class Ghost extends Entity {
     public void draw(Batch batch, float parentAlpha) {
         float delta = Gdx.graphics.getDeltaTime();
 
-        Vector2i cellPos = getCurrentCellPos();
         if (Math.abs(target.x - getX()) < EPSILON && Math.abs(target.y - getY()) < EPSILON) {
             ai.setPosition(getX(), getY());
             target = ai.nextPosition();

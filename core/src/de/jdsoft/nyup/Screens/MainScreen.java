@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.jdsoft.nyup.Entities.Ghost;
 import de.jdsoft.nyup.Entities.Player;
+import de.jdsoft.nyup.Level.Level001;
+import de.jdsoft.nyup.Level.LevelRule;
 import de.jdsoft.nyup.Nuyp;
 import de.jdsoft.nyup.NuypInput;
 import de.jdsoft.nyup.Entities.Entity;
@@ -37,13 +39,16 @@ public class MainScreen implements Screen {
         uiCam.position.set(uiCam.viewportWidth / 2f, uiCam.viewportHeight / 2f, 0);
 
         // game world
-        world = new World();
-        player = new Player(2, 3, world.getMap());
+        LevelRule level001 = new Level001();
+
+        world = new World(level001);
+        player = new Player(2, 3, world.getMap(), level001);
         world.addActor(player);
-        world.addActor(new Ghost(14, 11, world.getMap()));
-        world.addActor(new Ghost(14, 12, world.getMap()));
-        world.addActor(new Ghost(14, 13, world.getMap()));
+        world.addActor(new Ghost(14, 11, world.getMap(), level001));
+       // world.addActor(new Ghost(14, 12, world.getMap(), level001));
+       // world.addActor(new Ghost(14, 13, world.getMap(), level001));
         world.setKeyboardFocus(player);
+
 
         // input handling
         input = new InputMultiplexer();

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.utils.Pool;
+import de.jdsoft.nyup.Level.LevelRule;
 import de.jdsoft.nyup.Nuyp;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.Utils.Vector2i;
@@ -22,6 +24,9 @@ import de.jdsoft.nyup.World;
 
 
 public class Entity extends Actor {
+    private LevelRule level;
+    private Rectangle bounds = new Rectangle();
+
     public enum Direction {
         NORTH,
         EAST,
@@ -30,11 +35,11 @@ public class Entity extends Actor {
     }
 
     protected final TiledMapTileLayer wallLayer;
-    protected final TiledMapTileLayer pointLayer;
+    public final TiledMapTileLayer pointLayer;
 
-    protected int points = 0;
+    public int points = 0;
 
-    protected float maxSpeed = 80.0f;
+    public float maxSpeed = 80.0f;
     protected float rotationSpeed = 0.15f;
 
 
@@ -46,13 +51,16 @@ public class Entity extends Actor {
     private Pool<RotateToAction> pool;
 
 
-    public Entity(int x, int y, TiledMap map, Texture animTexture, int frames) {
+    public Entity(int x, int y, TiledMap map, Texture animTexture, int frames, LevelRule level) {
         super();
+
+        this.level = level;
 
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
         this.pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
 
         this.setPosition(x, y);
+        this.setSize(World.TILE_SIZE, World.TILE_SIZE);
 
         // animation setup
         Entity.frames = frames;
@@ -74,14 +82,11 @@ public class Entity extends Actor {
         };
     }
 
-
-    @Override
-    public Actor hit(float arg0, float arg1, boolean flag) {
-        return super.hit(arg0, arg1, flag);
-    }
-
     @Override
     public void draw(Batch batch, float parentAlpha) {
+
+        level.onDraw(this, Gdx.graphics.getDeltaTime());
+
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);
 
@@ -93,8 +98,25 @@ public class Entity extends Actor {
                 getRotation());
     }
 
+    @Override
+    public void moveBy(float x, float y) {
+        super.moveBy(x, y);
+        updateBounds();
+    }
 
-    protected void setDirection(Direction direction) {
+    @Override
+    public void setSize(float width, float height) {
+        super.setSize(width, height);
+        updateBounds();
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y);
+        updateBounds();
+    }
+
+    public void setDirection(Direction direction) {
         RotateToAction action = pool.obtain();
         action.setPool(pool);
 
@@ -122,7 +144,11 @@ public class Entity extends Actor {
         this.addAction(action);
     }
 
-    protected boolean canGoTo(Direction direction, float delta) {
+    public boolean canGoTo(Direction direction, float delta) {
+        if (level.onWallCollision(this)) {
+            return true;
+        }
+
         float x = getX();
         float y = getY();
 
@@ -158,8 +184,11 @@ public class Entity extends Actor {
         setPosition(x * World.TILE_SIZE, y * World.TILE_SIZE);
     }
 
-    public Vector2i getCurrentCellPos() {
-        return new Vector2i((int) Math.floor((getX()) / World.TILE_SIZE), (int) Math.floor(getY() / World.TILE_SIZE));
+    private void updateBounds() {
+        bounds.set(getX(), getY(), getWidth(), getHeight());
     }
 
+    public Rectangle getBounds() {
+        return bounds;
+    }
 }
