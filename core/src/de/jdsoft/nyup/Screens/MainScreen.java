@@ -21,7 +21,7 @@ import de.jdsoft.nyup.World;
 public class MainScreen implements Screen {
     final Nuyp game;
 
-    private OrthographicCamera uiCam;
+    public static OrthographicCamera uiCam;
     private World world;
 
     SpriteBatch batch;

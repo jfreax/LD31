@@ -14,13 +14,13 @@ import de.jdsoft.nyup.World;
 
 public class GhostAI implements EntityAI {
     public static final float DECAY = 0.99f;
-    public static final float DIFFUSE = 0.4f;
+    public static final float DIFFUSE = 0.5f;
 
     private float posX = 0;
     private float posY = 0;
     private TiledMapTileLayer wallLayer;
 
-    float[][] grid;
+    public float[][] grid;
     private Ghost ghost;
     private LevelRule level;
 
@@ -44,19 +44,20 @@ public class GhostAI implements EntityAI {
             for (int j = -step; j <= step; j += step) {
                 if (posX + i >= 0 && posX + i < (wallLayer.getWidth() - 1) * World.TILE_SIZE && posY + j >= 0 &&
                         posY + j < (wallLayer.getHeight() - 1) * World.TILE_SIZE) {
-                    if (Collision.getCollisionCell(wallLayer, (posX + i), (posY + j)) == null || level.onWallCollision(ghost)) {
+                    if (Collision.getCollisionCell(wallLayer, (posX + i), (posY + j), World.TILE_SIZE / 2.f) == null || level.onWallCollision(ghost)) {
                         float value = heuristic((int) ((posX + i) / World.TILE_SIZE), (int) ((posY + j) / World.TILE_SIZE));
 
                         if (value < minValue) {
                             minValue = value;
                             min = new Vector2(posX + i, posY + j);
-                        } else if ((Math.random() > 0.7)) {
-                            min = new Vector2(posX + i, posY + j);
+                        } else if ((Math.random() > 0.8)) {
+                            //min = new Vector2(posX + i, posY + j);
                         }
                     }
                 }
             }
         }
+        //markVisited((int) (min.x / World.TILE_SIZE), (int) (min.y / World.TILE_SIZE));
         return min;
     }
 
@@ -110,7 +111,6 @@ public class GhostAI implements EntityAI {
     public void setPosition(float x, float y) {
         this.posX = x;
         this.posY = y;
-
 
         markVisited((int) (x / World.TILE_SIZE), (int) (y / World.TILE_SIZE));
     }
