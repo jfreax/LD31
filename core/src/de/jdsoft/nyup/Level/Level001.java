@@ -82,17 +82,18 @@ public class Level001 extends Level000 {
     public void initActors() {
         player = new Player(1, 3, map, this);
         world.addActor(player);
-        world.addActor(new Ghost(14, 11, new Color(1.0f, 0.5f, 0.4f, 1f), map, this));
-        world.addActor(new Ghost(14, 12, new Color(0.5f, 1.0f, 0.6f, 1.0f), map, this));
-        world.addActor(new Ghost(14, 13, new Color(0.5f, 0.6f, 1.0f, 1.0f), map, this));
 
-        world.addActor(new Ghost(13, 11, new Color(1.0f, 0.5f, 0.4f, 1f), map, this));
-        world.addActor(new Ghost(13, 12, new Color(0.5f, 1.0f, 0.6f, 1.0f), map, this));
-        world.addActor(new Ghost(13, 13, new Color(0.5f, 0.6f, 1.0f, 1.0f), map, this));
+        TiledMapTileLayer ghostLayer = (TiledMapTileLayer) map.getLayers().get("ghosts1");
 
-        world.addActor(new Ghost(15, 11, new Color(1.0f, 0.5f, 0.4f, 1f), map, this));
-        world.addActor(new Ghost(15, 12, new Color(0.5f, 1.0f, 0.6f, 1.0f), map, this));
-        world.addActor(new Ghost(15, 13, new Color(0.5f, 0.6f, 1.0f, 1.0f), map, this));
+        for (int x = 0; x < ghostLayer.getWidth(); x++) {
+            for (int y = 0; y < ghostLayer.getHeight(); y++) {
+                if (ghostLayer.getCell(x, y) != null) {
+                    Ghost newGhost = new Ghost(x, y, new Color(rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f), map, this);
+                    newGhost.setSpeed(rng.nextInt(50) + 50);
+                    world.addActor(newGhost);
+                }
+            }
+        }
 
         world.setKeyboardFocus(player);
     }

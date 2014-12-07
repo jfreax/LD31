@@ -176,6 +176,10 @@ public class Entity extends Actor {
         return Collision.getCollisionCell(wallLayer, x, y) == null;
     }
 
+    public void setSpeed(int speed) {
+        this.maxSpeed = speed;
+    }
+
 
     public int getPoints() {
         return points;
