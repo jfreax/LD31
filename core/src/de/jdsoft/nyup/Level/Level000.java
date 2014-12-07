@@ -165,7 +165,7 @@ public class Level000 implements LevelRule {
 
 
             // get points
-            TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(player.pointLayer, player.getX(), player.getY(), true);
+            TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(pointLayer, player.getX(), player.getY(), true);
             if (pointCell != null && pointCell.getTile() != null) {
                 if (pointCell.getTile().getProperties().containsKey("type")) {
                     if (pointCell.getTile().getProperties().get("type").equals("mushroom")) {
@@ -179,8 +179,6 @@ public class Level000 implements LevelRule {
                 player.points++;
             }
         }
-
-        System.out.println(overallCoinsInGame);
 
         // check if we had won the game
         if (entity instanceof Player) {
