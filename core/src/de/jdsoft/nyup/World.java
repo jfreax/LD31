@@ -3,6 +3,7 @@ package de.jdsoft.nyup;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -18,11 +19,13 @@ public class World extends Stage {
     private OrthographicCamera cam;
 
     private TiledMap map;
+    private final Texture mapTexture;
     private TiledMapRenderer renderer;
     private LevelRule level;
 
     public World(LevelRule level) {
         super();
+
         this.level = level;
 
         cam = new OrthographicCamera();
@@ -31,7 +34,10 @@ public class World extends Stage {
 
 
         this.map = new TmxMapLoader().load("maps/level.tmx");
+        this.mapTexture = new Texture("gfx/spritemap.png");
         this.renderer = new OrthogonalTiledMapRenderer(map, 1f / TILE_SIZE);
+
+        this.level.init(this);
     }
 
     @Override
@@ -58,5 +64,9 @@ public class World extends Stage {
 
     public TiledMap getMap() {
         return map;
+    }
+
+    public Texture getMapTexture() {
+        return mapTexture;
     }
 }

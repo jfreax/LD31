@@ -3,19 +3,44 @@ package de.jdsoft.nyup.Level;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import de.jdsoft.nyup.Entities.Entity;
 import de.jdsoft.nyup.Entities.Ghost;
 import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Utils.Collision;
+import de.jdsoft.nyup.World;
+
+import java.util.Random;
 
 public class Level001 implements LevelRule {
+    Random rng = new Random();
+
+    private World world;
     TiledMap map;
 
     @Override
-    public void init(TiledMap map) {
-        this.map = map;
+    public void init(World world) {
+        this.world = world;
+        this.map = world.getMap();
+
+        TiledMapTileLayer wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
+        TiledMapTileLayer pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
+
+        TextureRegion goldTextureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
+        int numberOfGold = 200;
+        for (int i = 0; i < numberOfGold; i++) {
+            int x = rng.nextInt(wallLayer.getWidth());
+            int y = rng.nextInt(wallLayer.getHeight());
+
+            if (wallLayer.getCell(x, y) == null) {
+                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                cell.setTile(new StaticTiledMapTile(goldTextureRegion));
+                pointLayer.setCell(x, y, cell);
+            }
+        }
     }
 
     @Override
