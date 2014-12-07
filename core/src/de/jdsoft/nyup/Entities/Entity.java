@@ -9,17 +9,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.utils.Pool;
 import de.jdsoft.nyup.Level.LevelRule;
 import de.jdsoft.nyup.Nuyp;
 import de.jdsoft.nyup.Utils.Collision;
-import de.jdsoft.nyup.Utils.Vector2i;
 import de.jdsoft.nyup.World;
 
 
@@ -83,9 +78,15 @@ public class Entity extends Actor {
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
+    public void act(float delta) {
+        super.act(delta);
+        level.act(this, delta);
+    }
 
-        level.onDraw(this, Gdx.graphics.getDeltaTime());
+
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
 
         stateTime += Gdx.graphics.getDeltaTime();
         TextureRegion currentFrame = animation.getKeyFrame(stateTime, true);

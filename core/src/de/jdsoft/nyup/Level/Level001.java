@@ -44,7 +44,7 @@ public class Level001 implements LevelRule {
     }
 
     @Override
-    public void onDraw(Entity entity, float delta) {
+    public void act(Entity entity, float delta) {
 
         if (entity instanceof Player) {
             Player player = (Player) entity;
@@ -90,7 +90,16 @@ public class Level001 implements LevelRule {
 
     @Override
     public boolean onEntityCollision(Entity entity1, Entity entity2) {
-        System.out.println("Collision!");
+        if (entity1 instanceof Player) {
+            if (entity2 instanceof Ghost) {
+                world.lost();
+            }
+        }
+        if (entity2 instanceof Ghost) {
+            if (entity1 instanceof  Player) {
+                world.lost();
+            }
+        }
         return false;
     }
 

@@ -24,7 +24,10 @@ public class MainScreen implements Screen {
     private Entity player;
 
     SpriteBatch batch;
-    private BitmapFont font;
+
+    private final  BitmapFont font;
+    private final BitmapFont fontBig;
+
 
     InputMultiplexer input;
 
@@ -44,9 +47,9 @@ public class MainScreen implements Screen {
         world = new World(level001);
         player = new Player(2, 3, world.getMap(), level001);
         world.addActor(player);
-        world.addActor(new Ghost(14, 11, world.getMap(), level001));
-       // world.addActor(new Ghost(14, 12, world.getMap(), level001));
-       // world.addActor(new Ghost(14, 13, world.getMap(), level001));
+        world.addActor(new Ghost(2, 5, world.getMap(), level001));
+        world.addActor(new Ghost(14, 12, world.getMap(), level001));
+        world.addActor(new Ghost(14, 13, world.getMap(), level001));
         world.setKeyboardFocus(player);
 
 
@@ -57,6 +60,7 @@ public class MainScreen implements Screen {
 
         // ui
         font = new BitmapFont();
+        fontBig = new BitmapFont(Gdx.files.internal("fonts/chango2.fnt"));
         batch = new SpriteBatch();
     }
 
@@ -75,6 +79,15 @@ public class MainScreen implements Screen {
         batch.begin();
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
         font.draw(batch, "Points: " + player.getPoints(), 10, Gdx.graphics.getHeight() - 10);
+
+        if(world.isEnd()) {
+            if(world.isLost()) {
+                CharSequence text = "YOU LOST";
+                BitmapFont.TextBounds bounds = fontBig.getBounds(text);
+                fontBig.draw(batch, "YOU LOST", (Gdx.graphics.getWidth() - bounds.width) / 2.f, (Gdx.graphics.getHeight() - bounds.height) / 2.f );
+            }
+        }
+
         batch.end();
     }
 

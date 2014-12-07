@@ -29,8 +29,8 @@ public class Ghost extends Entity {
     }
 
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-        float delta = Gdx.graphics.getDeltaTime();
+    public void act(float delta) {
+        super.act(delta);
 
         if (Math.abs(target.x - getX()) < EPSILON && Math.abs(target.y - getY()) < EPSILON) {
             ai.setPosition(getX(), getY());
@@ -53,6 +53,12 @@ public class Ghost extends Entity {
             moveBy(0, -delta * maxSpeed);
             setDirection(Direction.SOUTH);
         }
+    }
+
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+
 
         super.draw(batch, parentAlpha);
     }

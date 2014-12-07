@@ -23,6 +23,9 @@ public class World extends Stage {
     private TiledMapRenderer renderer;
     private LevelRule level;
 
+    private boolean end = false;
+    private boolean lost = false;
+
     public World(LevelRule level) {
         super();
 
@@ -46,20 +49,32 @@ public class World extends Stage {
         renderer.setView(cam);
         renderer.render();
 
-        // check collisions
-        for (Actor actor1 : getActors().toArray()) {
-            for (Actor actor2 : getActors()) {
+        if (!end) {
+
+            // check collisions
+            for (Actor actor1 : getActors().toArray()) {
                 Entity entity1 = (Entity) actor1;
-                Entity entity2 = (Entity) actor2;
-                if (entity1 != entity2 && entity1.getBounds().overlaps(entity2.getBounds())) {
-                    level.onEntityCollision(entity1, entity2);
+                for (Actor actor2 : getActors()) {
+                    Entity entity2 = (Entity) actor2;
+                    if (entity1 != entity2 && entity1.getBounds().overlaps(entity2.getBounds())) {
+                        level.onEntityCollision(entity1, entity2);
+                    }
                 }
             }
+
+            this.act(Gdx.graphics.getDeltaTime());
         }
 
-        this.act(Gdx.graphics.getDeltaTime());
-
         super.draw();
+    }
+
+    public void lost() {
+        end = true;
+        lost = true;
+    }
+
+    public void win() {
+        end = true;
     }
 
     public TiledMap getMap() {
@@ -68,5 +83,13 @@ public class World extends Stage {
 
     public Texture getMapTexture() {
         return mapTexture;
+    }
+
+    public boolean isEnd() {
+        return end;
+    }
+
+    public boolean isLost() {
+        return lost;
     }
 }

@@ -8,7 +8,7 @@ import de.jdsoft.nyup.World;
 public interface LevelRule {
     public void init(World world);
 
-    public void onDraw(Entity entity, float delta);
+    public void act(Entity entity, float delta);
     public void onInput(Entity entity, int keyCode);
     public boolean onEntityCollision(Entity entity1, Entity entity2);
 
