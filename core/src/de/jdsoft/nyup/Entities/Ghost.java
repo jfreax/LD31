@@ -3,6 +3,7 @@ package de.jdsoft.nyup.Entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -16,10 +17,13 @@ public class Ghost extends Entity {
     private static final float EPSILON = 1.f;
     EntityAI ai = new GhostAI();
     Vector2 target = null;
+    private Color color;
 
 
-    public Ghost(int x, int y, TiledMap map, LevelRule level) {
+    public Ghost(int x, int y, Color color, TiledMap map, LevelRule level) {
         super(x, y, map, new Texture("gfx/ghost.png"), 1, level);
+
+        this.color = color;
 
         maxSpeed = 50;
         rotationSpeed = 0.08f;
@@ -59,8 +63,11 @@ public class Ghost extends Entity {
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-
+        Color oldColor = batch.getColor();
+        batch.setColor(color);
         super.draw(batch, parentAlpha);
+
+        batch.setColor(oldColor);
     }
 
 }

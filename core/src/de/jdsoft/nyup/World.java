@@ -2,6 +2,7 @@ package de.jdsoft.nyup;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -52,9 +53,9 @@ public class World extends Stage {
         level = new Level001();
         player = new Player(2, 3, getMap(), level);
         addActor(player);
-        addActor(new Ghost(2, 5, getMap(), level));
-        addActor(new Ghost(14, 12, getMap(), level));
-        addActor(new Ghost(14, 13, getMap(), level));
+        addActor(new Ghost(2, 5, new Color(1.0f, 0.5f, 0.4f, 1f), getMap(), level));
+        addActor(new Ghost(14, 12, new Color(0.5f, 1.0f, 0.6f, 1.0f), getMap(), level));
+        addActor(new Ghost(14, 13, new Color(0.5f, 0.6f, 1.0f, 1.0f), getMap(), level));
         setKeyboardFocus(player);
 
         this.level.init(this);
