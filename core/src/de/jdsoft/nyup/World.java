@@ -11,6 +11,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.jdsoft.nyup.Entities.Entity;
+import de.jdsoft.nyup.Entities.Ghost;
+import de.jdsoft.nyup.Entities.Player;
+import de.jdsoft.nyup.Level.Level001;
 import de.jdsoft.nyup.Level.LevelRule;
 
 public class World extends Stage {
@@ -25,20 +28,34 @@ public class World extends Stage {
 
     private boolean end = false;
     private boolean lost = false;
+    private Player player;
 
-    public World(LevelRule level) {
+    public World() {
         super();
-
-        this.level = level;
 
         cam = new OrthographicCamera();
         cam.setToOrtho(false, 40, 22.5f);
         cam.update();
 
-
         this.map = new TmxMapLoader().load("maps/level.tmx");
         this.mapTexture = new Texture("gfx/spritemap.png");
         this.renderer = new OrthogonalTiledMapRenderer(map, 1f / TILE_SIZE);
+
+    }
+
+    public void init() {
+        end = false;
+        lost = false;
+
+        this.getActors().clear();
+
+        level = new Level001();
+        player = new Player(2, 3, getMap(), level);
+        addActor(player);
+        addActor(new Ghost(2, 5, getMap(), level));
+        addActor(new Ghost(14, 12, getMap(), level));
+        addActor(new Ghost(14, 13, getMap(), level));
+        setKeyboardFocus(player);
 
         this.level.init(this);
     }
@@ -91,5 +108,9 @@ public class World extends Stage {
 
     public boolean isLost() {
         return lost;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 }

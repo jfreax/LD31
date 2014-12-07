@@ -21,7 +21,6 @@ public class MainScreen implements Screen {
 
     private OrthographicCamera uiCam;
     private World world;
-    private Entity player;
 
     SpriteBatch batch;
 
@@ -42,20 +41,12 @@ public class MainScreen implements Screen {
         uiCam.position.set(uiCam.viewportWidth / 2f, uiCam.viewportHeight / 2f, 0);
 
         // game world
-        LevelRule level001 = new Level001();
-
-        world = new World(level001);
-        player = new Player(2, 3, world.getMap(), level001);
-        world.addActor(player);
-        world.addActor(new Ghost(2, 5, world.getMap(), level001));
-        world.addActor(new Ghost(14, 12, world.getMap(), level001));
-        world.addActor(new Ghost(14, 13, world.getMap(), level001));
-        world.setKeyboardFocus(player);
-
+        world = new World();
+        world.init();
 
         // input handling
         input = new InputMultiplexer();
-        input.addProcessor(new NuypInput());
+        input.addProcessor(new NuypInput(world));
         input.addProcessor(world);
 
         // ui
@@ -78,7 +69,7 @@ public class MainScreen implements Screen {
 
         batch.begin();
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
-        font.draw(batch, "Points: " + player.getPoints(), 10, Gdx.graphics.getHeight() - 10);
+        font.draw(batch, "Points: " + world.getPlayer().getPoints(), 10, Gdx.graphics.getHeight() - 10);
 
         if(world.isEnd()) {
             if(world.isLost()) {

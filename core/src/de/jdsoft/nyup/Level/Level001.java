@@ -29,6 +29,12 @@ public class Level001 implements LevelRule {
         TiledMapTileLayer wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
         TiledMapTileLayer pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
 
+        for (int x = 0; x < pointLayer.getWidth(); x++) {
+            for (int y = 0; y < pointLayer.getHeight(); y++) {
+                pointLayer.setCell(x, y, null);
+            }
+        }
+
         TextureRegion goldTextureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
         int numberOfGold = 200;
         for (int i = 0; i < numberOfGold; i++) {

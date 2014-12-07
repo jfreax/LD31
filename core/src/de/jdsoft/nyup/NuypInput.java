@@ -1,12 +1,27 @@
 package de.jdsoft.nyup;
 
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
 public class NuypInput implements InputProcessor {
 
+    private World world;
+
+    public NuypInput(World world) {
+
+        this.world = world;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
+        if (world.isEnd()) {
+            if (keycode == Input.Keys.SPACE || keycode == Input.Keys.ENTER) {
+                world.init();
+                return true;
+            }
+        }
+
         return false;
     }
 
