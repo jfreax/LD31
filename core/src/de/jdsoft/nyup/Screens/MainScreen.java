@@ -28,6 +28,7 @@ public class MainScreen implements Screen {
 
     private final Stage uiStage;
     private final BitmapFont font;
+    private final BitmapFont fontBig;
     private final TextFlashEffect textEffect;
 
     private final TextureRegion coinTexture;
@@ -100,6 +101,7 @@ public class MainScreen implements Screen {
         // ui
         uiStage = new Stage();
         font = new BitmapFont();
+        fontBig = new BitmapFont(Gdx.files.internal("fonts/chango.fnt"));
         batch = new SpriteBatch();
 
         textEffect = new TextFlashEffect(new BitmapFont(Gdx.files.internal("fonts/chango2.fnt")), "Test");
