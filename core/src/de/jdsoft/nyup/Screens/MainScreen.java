@@ -174,16 +174,18 @@ public class MainScreen implements Screen {
         // coins
         batch.draw(coinTexture, 6, Gdx.graphics.getHeight() - 40);
         font.setColor(coinColor);
-        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getPoints()), 42, yText);
+        CharSequence coinText = world.getLevel().getPlayer().getPoints() + " (" + world.getOverallPoints() + ")";
+        BitmapFont.TextBounds coinBounds = font.getBounds(coinText);
+        font.draw(batch, coinText, 42, yText);
 
         // lives
-        batch.draw(heartTexture, 64, Gdx.graphics.getHeight() - 40);
+        batch.draw(heartTexture, 42 + coinBounds.width + 10, Gdx.graphics.getHeight() - 40);
         font.setColor(heartColor);
-        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getLifes()), 98, yText);
+        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getLifes()), 42 + coinBounds.width + 10 + 34, yText);
 
         // level
         font.setColor(Color.WHITE);
-        font.draw(batch, LevelMapping.map.get(currentLevelNumber).getLevelHelp(), 216, yText);
+        font.draw(batch, LevelMapping.map.get(currentLevelNumber).getLevelHelp(), 262, yText);
 
         // steps
         font.setColor(Color.WHITE);

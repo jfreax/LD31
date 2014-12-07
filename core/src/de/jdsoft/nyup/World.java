@@ -44,6 +44,8 @@ public class World extends Stage {
     private boolean lost = false;
     private boolean pause = true;
 
+    private int overallPoints = 0;
+
 
     Runnable initListener = null;
     private Runnable endListener = null;
@@ -134,9 +136,12 @@ public class World extends Stage {
         end = true;
         pause = true;
 
+        overallPoints += level.getPlayer().points;
+
         if (endListener != null) {
             endListener.run();
         }
+
     }
 
     public void setLevel(LevelRule level) {
@@ -181,5 +186,9 @@ public class World extends Stage {
 
     public void playSound(SoundID id, float volume) {
         soundMap.get(id).play(volume);
+    }
+
+    public int getOverallPoints() {
+        return overallPoints;
     }
 }

@@ -120,7 +120,7 @@ public class Level000 implements LevelRule {
     public void initActors() {
         player = new Player(1, 3, map, this);
         world.addActor(player);
-        world.addActor(new Ghost(2, 5, new Color(1.0f, 0.5f, 0.4f, 1f), map, this));
+        world.addActor(new Ghost(6, 5, new Color(1.0f, 0.5f, 0.4f, 1f), map, this));
         world.addActor(new Ghost(14, 12, new Color(0.5f, 1.0f, 0.6f, 1.0f), map, this));
         world.addActor(new Ghost(14, 13, new Color(0.5f, 0.6f, 1.0f, 1.0f), map, this));
         world.setKeyboardFocus(player);
