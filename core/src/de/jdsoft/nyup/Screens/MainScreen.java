@@ -32,6 +32,7 @@ public class MainScreen implements Screen {
 
     private final TextureRegion coinTexture;
     private final TextureRegion heartTexture;
+    private final TextureRegion clockTexture;
     private final Color coinColor;
     private final Color heartColor;
 
@@ -40,6 +41,7 @@ public class MainScreen implements Screen {
     int currentLevelNumber = 3;
 
     InputMultiplexer input;
+    private long startTime;
 
     public MainScreen (final Nuyp game) {
         this.game = game;
@@ -107,6 +109,7 @@ public class MainScreen implements Screen {
         coinColor = Color.valueOf("ffdf7d");
         heartTexture = new TextureRegion(world.getMapTexture(), 160, 64, 32, 32);
         heartColor = Color.valueOf("d95763");
+        clockTexture = new TextureRegion(world.getMapTexture(), 160, 96, 32, 32);
 
         begin();
     }
@@ -121,6 +124,7 @@ public class MainScreen implements Screen {
     }
 
     private void begin() {
+        startTime = System.currentTimeMillis();
 
         textEffect.setText(LevelMapping.map.get(currentLevelNumber).getLevelHelp());
         textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() * 0.8f);
@@ -176,6 +180,11 @@ public class MainScreen implements Screen {
         // level
         font.setColor(Color.WHITE);
         font.draw(batch, LevelMapping.map.get(currentLevelNumber).getLevelHelp(), 216, yText);
+
+        // timer
+        font.setColor(Color.WHITE);
+        batch.draw(clockTexture, Gdx.graphics.getWidth() - 108, Gdx.graphics.getHeight() - 40);
+        font.draw(batch, ((System.currentTimeMillis() - startTime) / 1000) + "s", Gdx.graphics.getWidth() - 60, yText);
 
         batch.end();
     }

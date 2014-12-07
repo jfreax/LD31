@@ -51,13 +51,12 @@ public class GhostAI implements EntityAI {
                             minValue = value;
                             min = new Vector2(posX + i, posY + j);
                         } else if ((Math.random() > 0.8)) {
-                            //min = new Vector2(posX + i, posY + j);
+                            min = new Vector2(posX + i, posY + j);
                         }
                     }
                 }
             }
         }
-        //markVisited((int) (min.x / World.TILE_SIZE), (int) (min.y / World.TILE_SIZE));
         return min;
     }
 
