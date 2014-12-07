@@ -135,25 +135,25 @@ public class Level000 implements LevelRule {
         if (entity instanceof Player) {
             Player player = (Player) entity;
 
-            if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.DPAD_LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
                 if (player.canGoTo(Entity.Direction.WEST, delta)) {
                     player.moveBy(-delta * player.maxSpeed, 0);
                 }
                 player.setDirection(Entity.Direction.WEST);
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.DPAD_RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
                 if (player.canGoTo(Entity.Direction.EAST, delta)) {
                     player.moveBy(delta * player.maxSpeed, 0);
                 }
                 player.setDirection(Entity.Direction.EAST);
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.DPAD_UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
                 if (player.canGoTo(Entity.Direction.NORTH, delta)) {
                     player.moveBy(0, delta * player.maxSpeed);
                 }
                 player.setDirection(Entity.Direction.NORTH);
             }
-            if (Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.DPAD_DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
                 if (player.canGoTo(Entity.Direction.SOUTH, delta)) {
                     player.moveBy(0, -delta * player.maxSpeed);
                 }
