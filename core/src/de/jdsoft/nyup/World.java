@@ -14,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.jdsoft.nyup.Entities.Entity;
 import de.jdsoft.nyup.Entities.Ghost;
 import de.jdsoft.nyup.Entities.Player;
-import de.jdsoft.nyup.Level.Level001;
+import de.jdsoft.nyup.Level.Level000;
 import de.jdsoft.nyup.Level.LevelRule;
 
 public class World extends Stage {
@@ -42,6 +42,7 @@ public class World extends Stage {
         this.mapTexture = new Texture("gfx/spritemap.png");
         this.renderer = new OrthogonalTiledMapRenderer(map, 1f / TILE_SIZE);
 
+        level = new Level000();
     }
 
     public void init() {
@@ -50,7 +51,6 @@ public class World extends Stage {
 
         this.getActors().clear();
 
-        level = new Level001();
         player = new Player(2, 3, getMap(), level);
         addActor(player);
         addActor(new Ghost(2, 5, new Color(1.0f, 0.5f, 0.4f, 1f), getMap(), level));
@@ -87,12 +87,16 @@ public class World extends Stage {
     }
 
     public void lost() {
-        end = true;
         lost = true;
+        end = true;
     }
 
-    public void win() {
+    public void won() {
         end = true;
+    }
+
+    public void setLevel(LevelRule level) {
+        this.level = level;
     }
 
     public TiledMap getMap() {

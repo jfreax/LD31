@@ -15,7 +15,7 @@ import de.jdsoft.nyup.World;
 
 import java.util.Random;
 
-public class Level001 implements LevelRule {
+public class Level000 implements LevelRule {
     Random rng = new Random();
 
     private World world;

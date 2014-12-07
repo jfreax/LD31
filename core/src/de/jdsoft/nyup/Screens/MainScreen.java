@@ -7,31 +7,32 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.jdsoft.nyup.Entities.Ghost;
-import de.jdsoft.nyup.Entities.Player;
-import de.jdsoft.nyup.Level.Level001;
-import de.jdsoft.nyup.Level.LevelRule;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.jdsoft.nyup.Nuyp;
 import de.jdsoft.nyup.NuypInput;
-import de.jdsoft.nyup.Entities.Entity;
+import de.jdsoft.nyup.TextFlashEffect;
 import de.jdsoft.nyup.World;
 
 public class MainScreen implements Screen {
     final Nuyp game;
+
+
 
     private OrthographicCamera uiCam;
     private World world;
 
     SpriteBatch batch;
 
+    private final Stage uiStage;
     private final  BitmapFont font;
     private final BitmapFont fontBig;
-
+    private final TextFlashEffect textEffect;
 
     InputMultiplexer input;
 
     public MainScreen (final Nuyp game) {
         this.game = game;
+
 
         // setup camera
         float w = Gdx.graphics.getWidth();
@@ -50,9 +51,14 @@ public class MainScreen implements Screen {
         input.addProcessor(world);
 
         // ui
+        uiStage = new Stage();
         font = new BitmapFont();
         fontBig = new BitmapFont(Gdx.files.internal("fonts/chango2.fnt"));
         batch = new SpriteBatch();
+
+        textEffect = new TextFlashEffect(new BitmapFont(Gdx.files.internal("fonts/chango2.fnt")), "Test");
+        textEffect.hide();
+        uiStage.addActor(textEffect);
     }
 
     @Override
@@ -67,15 +73,21 @@ public class MainScreen implements Screen {
         uiCam.update();
         batch.setProjectionMatrix(uiCam.combined);
 
+        uiStage.draw();
+
         batch.begin();
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
         font.draw(batch, "Points: " + world.getPlayer().getPoints(), 10, Gdx.graphics.getHeight() - 10);
 
         if(world.isEnd()) {
             if(world.isLost()) {
-                CharSequence text = "YOU LOST";
-                BitmapFont.TextBounds bounds = fontBig.getBounds(text);
-                fontBig.draw(batch, "YOU LOST", (Gdx.graphics.getWidth() - bounds.width) / 2.f, (Gdx.graphics.getHeight() - bounds.height) / 2.f );
+                if (textEffect.runs() == 0) {
+                    CharSequence text = "YOU LOST";
+                    textEffect.setText(text);
+                    textEffect.setPosition(Gdx.graphics.getWidth() / 2.f, Gdx.graphics.getHeight() / 2.f);
+
+                    textEffect.start();
+                }
             }
         }
 
