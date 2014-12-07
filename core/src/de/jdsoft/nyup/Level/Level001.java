@@ -17,15 +17,7 @@ import de.jdsoft.nyup.World;
 public class Level001 extends Level000 {
 
     @Override
-    public void init(World world) {
-        this.world = world;
-        this.map = world.getMap();
-
-        this.initActors();
-
-        TiledMapTileLayer wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
-        TiledMapTileLayer pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
-
+    public void levelInit() {
         for (int x = 0; x < pointLayer.getWidth(); x++) {
             for (int y = 0; y < pointLayer.getHeight(); y++) {
                 pointLayer.setCell(x, y, null);

@@ -10,6 +10,7 @@ public interface LevelRule {
     Random rng = new Random();
 
     public void init(World world);
+    public void levelInit();
 
     public String getLevelHelp();
 
@@ -23,6 +24,9 @@ public interface LevelRule {
      * @return true if walkable
      */
     public boolean onWallCollision(Entity entity1);
+
+    public int getMapHeight();
+    public int getMapWidth();
 
     Entity getPlayer();
 }

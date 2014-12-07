@@ -3,10 +3,13 @@ package de.jdsoft.nyup.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.jdsoft.nyup.Level.LevelMapping;
 import de.jdsoft.nyup.Nuyp;
@@ -23,8 +26,11 @@ public class MainScreen implements Screen {
     SpriteBatch batch;
 
     private final Stage uiStage;
-    private final  BitmapFont font;
+    private final BitmapFont font;
     private final TextFlashEffect textEffect;
+    private final Texture coinTexture;
+
+    private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     int currentLevelNumber = 0;
 
@@ -92,6 +98,8 @@ public class MainScreen implements Screen {
         textEffect.hide();
         uiStage.addActor(textEffect);
 
+        coinTexture = new Texture("gfx/coin.png");
+
         begin();
     }
 
@@ -129,15 +137,28 @@ public class MainScreen implements Screen {
 
         // render ui
         uiCam.update();
-        batch.setProjectionMatrix(uiCam.combined);
+        float levelHeightInPixel = world.getLevel().getMapHeight() * World.TILE_SIZE;
+        shapeRenderer.setProjectionMatrix(uiCam.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.valueOf("1d273b"));
+        shapeRenderer.rect(0, levelHeightInPixel, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()-levelHeightInPixel);
+        shapeRenderer.end();
 
         uiStage.draw();
 
+        batch.setProjectionMatrix(uiCam.combined);
         batch.begin();
-        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
-        font.draw(batch, "Points: " + world.getLevel().getPlayer().getPoints(), 10, Gdx.graphics.getHeight() - 10);
 
+        // fps
+        font.setColor(1, 1, 1, 1);
+        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 8, 20);
+        // coins
+        batch.draw(coinTexture, 8, Gdx.graphics.getHeight() - 40);
+        font.setColor(Color.valueOf("ffdf7d"));
+        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getPoints()), 42, Gdx.graphics.getHeight() - 16);
         batch.end();
+
+
     }
 
     @Override

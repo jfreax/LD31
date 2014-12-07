@@ -14,14 +14,17 @@ import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.World;
 
-import java.util.Random;
-
 public class Level000 implements LevelRule {
     protected World world;
     protected TiledMap map;
     protected Player player;
 
+    protected int mapWidth = 0;
+    protected int mapHeight = 0;
+
     protected int overallCoinsInGame = 0;
+    protected TiledMapTileLayer wallLayer;
+    protected TiledMapTileLayer pointLayer;
 
     @Override
     public void init(World world) {
@@ -30,9 +33,17 @@ public class Level000 implements LevelRule {
 
         this.initActors();
 
-        TiledMapTileLayer wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
-        TiledMapTileLayer pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
+        wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
+        pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
 
+        mapWidth = wallLayer.getWidth();
+        mapHeight = wallLayer.getHeight();
+
+        levelInit();
+    }
+
+    @Override
+    public void levelInit() {
         for (int x = 0; x < pointLayer.getWidth(); x++) {
             for (int y = 0; y < pointLayer.getHeight(); y++) {
                 pointLayer.setCell(x, y, null);
@@ -179,6 +190,16 @@ public class Level000 implements LevelRule {
     @Override
     public boolean onWallCollision(Entity entity1) {
         return false;
+    }
+
+    @Override
+    public int getMapHeight() {
+        return mapHeight;
+    }
+
+    @Override
+    public int getMapWidth() {
+        return mapWidth;
     }
 
     @Override
