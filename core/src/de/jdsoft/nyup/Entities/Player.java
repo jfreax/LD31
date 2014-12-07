@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import de.jdsoft.nyup.Utils.Collision;
 
 public class Player extends Entity {
     public Player(int x, int y, TiledMap map) {
@@ -43,11 +44,11 @@ public class Player extends Entity {
         }
 
         // get points
-        TiledMapTileLayer.Cell pointCell = getCollisionCell(pointLayer, getX(), getY(), true);
+        TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(pointLayer, getX(), getY(), true);
         if (pointCell != null && pointCell.getTile() != null) {
             points++;
         }
-
+        
         super.draw(batch, parentAlpha);
     }
 }

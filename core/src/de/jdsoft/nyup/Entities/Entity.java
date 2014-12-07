@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
@@ -15,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.RotateToAction;
 import com.badlogic.gdx.utils.Pool;
 import de.jdsoft.nyup.Nuyp;
+import de.jdsoft.nyup.Utils.Collision;
+import de.jdsoft.nyup.Utils.Vector2i;
 import de.jdsoft.nyup.World;
 
 
@@ -141,44 +144,20 @@ public class Entity extends Actor {
             return false;
         }
 
-        return getCollisionCell(wallLayer, x, y) == null;
+        return Collision.getCollisionCell(wallLayer, x, y) == null;
     }
 
-    private TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y) {
-        return getCollisionCell(layer, x, y, false);
-    }
-
-    protected TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y, boolean remove) {
-        TiledMapTileLayer.Cell tmp;
-
-        float TS = World.TILE_SIZE;
-        float M = TS / 5.f;
-
-        // quick and dirty, really dirty
-        for ( int i = 0; i <= 1; i++) {
-            for ( int j = 0; j <= 1; j++) {
-                int xC = (int) ((x+M + i*(TS - 2*M)) / World.TILE_SIZE);
-                int yC = (int) ((y+M + j*(TS - 2*M)) / World.TILE_SIZE);
-
-                tmp = layer.getCell(xC, yC);
-                if (tmp != null) {
-                    if (remove) {
-                        layer.setCell(xC, yC, null);
-                    }
-                    return tmp;
-                }
-            }
-        }
-
-        return null;
-    }
 
     public int getPoints() {
         return points;
     }
 
     public void setPosition(int x, int y) {
-        setPosition( x * World.TILE_SIZE, y * World.TILE_SIZE );
+        setPosition(x * World.TILE_SIZE, y * World.TILE_SIZE);
+    }
+
+    public Vector2i getCurrentCellPos() {
+        return new Vector2i((int) Math.floor((getX()) / World.TILE_SIZE), (int) Math.floor(getY() / World.TILE_SIZE));
     }
 
 }
