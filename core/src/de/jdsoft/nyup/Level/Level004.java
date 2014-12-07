@@ -14,6 +14,8 @@ public class Level004 extends Level003 {
     float lifeLostTime = 0.5f;
     float timeToLostLife = lifeLostTime;
 
+    int maxLifes = 50;
+
     @Override
     public void levelInit() {
         super.levelInit();
@@ -26,7 +28,7 @@ public class Level004 extends Level003 {
     public void initActors() {
         super.initActors();
 
-        player.setLifes(20);
+        player.setLifes(25);
     }
 
     @Override
@@ -45,11 +47,14 @@ public class Level004 extends Level003 {
                 if (aLaserLayer.isVisible()) {
                     TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(aLaserLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
                     if (pointCell != null && pointCell.getTile() != null) {
-                        timeToLostLife += delta * 1.75f;
+                        timeToLostLife += delta * 1.8f;
 
                         if (timeToLostLife >= lifeLostTime) {
                             timeToLostLife = lifeLostTime / 2.0f;
-                            player.setLifes(player.getLifes() + 1);
+
+                            if (player.getLifes() < maxLifes) {
+                                player.setLifes(player.getLifes() + 1);
+                            }
                         }
                     }
                 }
