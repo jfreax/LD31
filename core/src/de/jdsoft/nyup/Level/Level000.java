@@ -11,7 +11,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
 import de.jdsoft.nyup.Entities.Entity;
 import de.jdsoft.nyup.Entities.Ghost;
 import de.jdsoft.nyup.Entities.Player;
@@ -30,7 +32,7 @@ public class Level000 implements LevelRule {
     protected TiledMapTileLayer wallLayer;
     protected TiledMapTileLayer pointLayer;
 
-    protected AnimatedTiledMapTile laserTile;
+    boolean canEatGhosts = false;
 
     @Override
     public void init(World world) {
@@ -166,11 +168,9 @@ public class Level000 implements LevelRule {
             if (pointCell != null && pointCell.getTile() != null) {
                 if (pointCell.getTile().getProperties().containsKey("type")) {
                     if (pointCell.getTile().getProperties().get("type").equals("mushroom")) {
-                        world.playSound(World.SoundID.PICKUP_2);
-                        // yeahh, a mushroom
+                        colliedWithTile(TILE_TYPE.MUSHROOM);
                     } else if (pointCell.getTile().getProperties().get("type").equals("coin")) {
-                        overallCoinsInGame--;
-                        world.playSound(World.SoundID.PICKUP_COIN);
+                        colliedWithTile(TILE_TYPE.COIN);
                     }
                 }
                 player.points++;
@@ -192,6 +192,21 @@ public class Level000 implements LevelRule {
     }
 
     @Override
+    public void colliedWithTile(TILE_TYPE type) {
+        switch (type) {
+            case MUSHROOM:
+                world.playSound(World.SoundID.PICKUP_2);
+                setCanEatGhosts(true);
+
+                break;
+            case COIN:
+                world.playSound(World.SoundID.PICKUP_COIN);
+                overallCoinsInGame--;
+                break;
+        }
+    }
+
+    @Override
     public void onInput(Entity entity, int keyCode) {
 
     }
@@ -200,15 +215,20 @@ public class Level000 implements LevelRule {
     public boolean onEntityCollision(Entity entity1, Entity entity2) {
         if (entity1 instanceof Player) {
             if (entity2 instanceof Ghost) {
-                world.lost();
+                if (canEatGhosts) {
+                    player.points += 10;
+                    removeEntity(entity2);
+                } else {
+                    world.lost();
+                }
             }
         }
-        if (entity2 instanceof Ghost) {
-            if (entity1 instanceof  Player) {
-                world.lost();
-            }
-        }
+
         return false;
+    }
+
+    private void removeEntity(Entity entity) {
+        world.getActors().removeValue(entity, false);
     }
 
     public void initLaserAnimation(TiledMapTileLayer layer, float intervall) {
@@ -258,5 +278,26 @@ public class Level000 implements LevelRule {
     @Override
     public Player getPlayer() {
         return player;
+    }
+
+    public void setCanEatGhosts(boolean canEatGhosts) {
+        this.canEatGhosts = canEatGhosts;
+
+        for(Actor act : world.getActors()) {
+            if (act instanceof Ghost) {
+                Ghost ghost = (Ghost) act;
+                ghost.canGetEaten(canEatGhosts);
+
+                if (canEatGhosts) {
+                    Timer.schedule(new Timer.Task() {
+                        @Override
+                        public void run() {
+                            setCanEatGhosts(false);
+                        }
+                    }, 8.0f);
+                }
+            }
+        }
+
     }
 }

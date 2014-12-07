@@ -26,6 +26,7 @@ public class Ghost extends Entity {
     private Color color;
 
     ShapeRenderer shape;
+    private boolean canGetEaten = false;
 
 
     public Ghost(int x, int y, Color color, TiledMap map, LevelRule level) {
@@ -75,7 +76,12 @@ public class Ghost extends Entity {
     public void draw(Batch batch, float parentAlpha) {
 
         Color oldColor = batch.getColor();
-        batch.setColor(color);
+
+        if (canGetEaten) {
+            batch.setColor(0.4f, 0.4f, 1.0f, 1.0f);
+        } else {
+            batch.setColor(color);
+        }
         super.draw(batch, parentAlpha);
 
         batch.setColor(oldColor);
@@ -113,4 +119,7 @@ public class Ghost extends Entity {
         }
     }
 
+    public void canGetEaten(boolean b) {
+        this.canGetEaten = b;
+    }
 }

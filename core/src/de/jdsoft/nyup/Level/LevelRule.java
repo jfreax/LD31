@@ -8,6 +8,11 @@ import de.jdsoft.nyup.World;
 import java.util.Random;
 
 public interface LevelRule {
+    enum TILE_TYPE {
+        COIN,
+        MUSHROOM
+    }
+
     Random rng = new Random();
 
     public void init(World world);
@@ -17,6 +22,8 @@ public interface LevelRule {
 
     public void act(Entity entity, float delta);
     public void checkWonLost(Entity entity);
+
+    public void colliedWithTile(TILE_TYPE type);
 
     public void onInput(Entity entity, int keyCode);
     public boolean onEntityCollision(Entity entity1, Entity entity2);
