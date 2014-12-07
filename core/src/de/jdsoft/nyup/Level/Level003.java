@@ -15,11 +15,28 @@ import de.jdsoft.nyup.World;
 public class Level003 extends Level002 {
 
 
+    private TiledMapTileLayer actionLayer;
+
     @Override
     public void levelInit() {
         super.levelInit();
 
-        // todo add goal
+        actionLayer = (TiledMapTileLayer) map.getLayers().get("actions");
+        actionLayer.setVisible(true);
+
+    }
+
+    @Override
+    public void act(Entity entity, float delta) {
+        super.act(entity, delta);
+
+        if (entity instanceof Player) {
+            TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
+
+            if (portalCell != null && portalCell.getTile() != null) {
+                world.won();
+            }
+        }
     }
 
     @Override

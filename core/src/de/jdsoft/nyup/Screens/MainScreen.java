@@ -37,7 +37,7 @@ public class MainScreen implements Screen {
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    int currentLevelNumber = 2;
+    int currentLevelNumber = 3;
 
     InputMultiplexer input;
 
