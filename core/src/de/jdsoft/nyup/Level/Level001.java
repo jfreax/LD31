@@ -69,6 +69,11 @@ public class Level001 implements LevelRule {
     }
 
     @Override
+    public String getLevelHelp() {
+        return "Classic Pacman";
+    }
+
+    @Override
     public void act(Entity entity, float delta) {
 
         if (entity instanceof Player) {
