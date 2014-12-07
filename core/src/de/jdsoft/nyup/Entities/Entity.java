@@ -151,14 +151,19 @@ public class Entity extends Actor {
     protected TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y, boolean remove) {
         TiledMapTileLayer.Cell tmp;
 
-        float SMALLER_TILE = World.TILE_SIZE-2;
+        float TS = World.TILE_SIZE;
+        float M = TS / 5.f;
 
+        // quick and dirty, really dirty
         for ( int i = 0; i <= 1; i++) {
             for ( int j = 0; j <= 1; j++) {
-                tmp = layer.getCell((int) ((x + SMALLER_TILE*i) / World.TILE_SIZE), (int) ((y + SMALLER_TILE*j) / World.TILE_SIZE));
+                int xC = (int) ((x+M + i*(TS - 2*M)) / World.TILE_SIZE);
+                int yC = (int) ((y+M + j*(TS - 2*M)) / World.TILE_SIZE);
+
+                tmp = layer.getCell(xC, yC);
                 if (tmp != null) {
                     if (remove) {
-                        layer.setCell((int) ((x + SMALLER_TILE*i) / World.TILE_SIZE), (int) ((y + SMALLER_TILE*j) / World.TILE_SIZE), null);
+                        layer.setCell(xC, yC, null);
                     }
                     return tmp;
                 }
