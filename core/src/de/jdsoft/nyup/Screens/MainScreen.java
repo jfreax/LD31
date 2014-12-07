@@ -40,7 +40,9 @@ public class MainScreen implements Screen {
         world = new World();
         player = new Player(2, 3, world.getMap());
         world.addActor(player);
-        world.addActor(new Ghost(1, 2, world.getMap()));
+        world.addActor(new Ghost(14, 11, world.getMap()));
+        world.addActor(new Ghost(14, 12, world.getMap()));
+        world.addActor(new Ghost(14, 13, world.getMap()));
         world.setKeyboardFocus(player);
 
         // input handling

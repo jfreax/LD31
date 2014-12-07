@@ -48,7 +48,9 @@ public class Player extends Entity {
         if (pointCell != null && pointCell.getTile() != null) {
             points++;
         }
-        
+
+        System.out.println(getCurrentCellPos().toString());
+
         super.draw(batch, parentAlpha);
     }
 }
