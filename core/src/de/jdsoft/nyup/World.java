@@ -2,6 +2,7 @@ package de.jdsoft.nyup;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,7 +15,17 @@ import de.jdsoft.nyup.Entities.Entity;
 import de.jdsoft.nyup.Level.Level000;
 import de.jdsoft.nyup.Level.LevelRule;
 
+import java.util.HashMap;
+
 public class World extends Stage {
+    public enum SoundID {
+        LEVEL_UP,
+        LOST,
+        PICKUP_COIN,
+        PICKUP_2
+    }
+
+
     public final static float TILE_SIZE = 32.0f;
 
     private OrthographicCamera cam;
@@ -24,9 +35,12 @@ public class World extends Stage {
     private TiledMapRenderer renderer;
     private LevelRule level;
 
+    private HashMap<SoundID, Sound> soundMap;
+
     private boolean end = false;
     private boolean lost = false;
     private boolean pause = true;
+
 
     Runnable initListener = null;
     private Runnable endListener = null;
@@ -41,6 +55,12 @@ public class World extends Stage {
         this.map = new TmxMapLoader().load("maps/level.tmx");
         this.mapTexture = new Texture("gfx/spritemap.png");
         this.renderer = new OrthogonalTiledMapRenderer(map, 1f / TILE_SIZE);
+
+        soundMap = new HashMap<SoundID, Sound>();
+        soundMap.put(SoundID.LEVEL_UP, Gdx.audio.newSound(Gdx.files.internal("sound/level_up.wav")));
+        soundMap.put(SoundID.LOST, Gdx.audio.newSound(Gdx.files.internal("sound/lost.wav")));
+        soundMap.put(SoundID.PICKUP_COIN, Gdx.audio.newSound(Gdx.files.internal("sound/pickup_coin.wav")));
+        soundMap.put(SoundID.PICKUP_2, Gdx.audio.newSound(Gdx.files.internal("sound/pickup2.wav")));
 
         level = new Level000();
     }
@@ -92,6 +112,8 @@ public class World extends Stage {
     }
 
     public void lost() {
+        playSound(SoundID.LOST);
+
         lost = true;
         end = true;
         pause = true;
@@ -102,6 +124,8 @@ public class World extends Stage {
     }
 
     public void won() {
+        playSound(SoundID.LEVEL_UP);
+
         end = true;
         pause = true;
 
@@ -140,5 +164,9 @@ public class World extends Stage {
 
     public LevelRule getLevel() {
         return level;
+    }
+
+    public void playSound(SoundID id) {
+        soundMap.get(id).play();
     }
 }

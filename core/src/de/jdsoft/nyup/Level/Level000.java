@@ -147,9 +147,11 @@ public class Level000 implements LevelRule {
             if (pointCell != null && pointCell.getTile() != null) {
                 if (pointCell.getTile().getProperties().containsKey("type")) {
                     if (pointCell.getTile().getProperties().get("type").equals("mushroom")) {
+                        world.playSound(World.SoundID.PICKUP_2);
                         // yeahh, a mushroom
                     } else if (pointCell.getTile().getProperties().get("type").equals("coin")) {
                         overallCoinsInGame--;
+                        world.playSound(World.SoundID.PICKUP_COIN);
                     }
                 }
                 player.points++;
