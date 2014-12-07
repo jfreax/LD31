@@ -36,6 +36,8 @@ public class Level001 implements LevelRule {
         }
 
         TextureRegion goldTextureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
+        StaticTiledMapTile newGoldTile = new StaticTiledMapTile(goldTextureRegion);
+        newGoldTile.getProperties().put("type", "gold");
         int numberOfGold = 200;
         for (int i = 0; i < numberOfGold; i++) {
             int x = rng.nextInt(wallLayer.getWidth());
@@ -43,7 +45,24 @@ public class Level001 implements LevelRule {
 
             if (wallLayer.getCell(x, y) == null) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                cell.setTile(new StaticTiledMapTile(goldTextureRegion));
+                cell.setTile(newGoldTile);
+                pointLayer.setCell(x, y, cell);
+            }
+        }
+
+        TextureRegion mushroomTextureRegion = new TextureRegion(world.getMapTexture(), 128, 96, 32, 32);
+        StaticTiledMapTile mushroomTile = new StaticTiledMapTile(mushroomTextureRegion);
+        mushroomTile.getProperties().put("type", "mushroom");
+
+        int numberOfMushrooms = 10;
+        for (int i = 0; i < numberOfMushrooms; i++) {
+            int x = rng.nextInt(wallLayer.getWidth());
+            int y = rng.nextInt(wallLayer.getHeight());
+
+            if (wallLayer.getCell(x, y) == null) {
+                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                cell.setTile(mushroomTile);
+
                 pointLayer.setCell(x, y, cell);
             }
         }
@@ -84,6 +103,9 @@ public class Level001 implements LevelRule {
             // get points
             TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(player.pointLayer, player.getX(), player.getY(), true);
             if (pointCell != null && pointCell.getTile() != null) {
+                if (pointCell.getTile().getProperties().get("type").equals("mushroom")) {
+                    // yeahh, a mushroom
+                }
                 player.points++;
             }
         }
