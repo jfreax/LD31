@@ -35,6 +35,8 @@ public class Entity extends Actor {
     protected int points = 0;
 
     protected float maxSpeed = 80.0f;
+    protected float rotationSpeed = 0.15f;
+
 
     protected static int frames;
     protected TextureRegion[] animFrames;
@@ -116,7 +118,7 @@ public class Entity extends Actor {
                 break;
         }
 
-        action.setDuration(0.15f);
+        action.setDuration(rotationSpeed);
         this.addAction(action);
     }
 

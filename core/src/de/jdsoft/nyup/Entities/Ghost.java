@@ -16,8 +16,12 @@ public class Ghost extends Entity {
     EntityAI ai = new GhostAI();
     Vector2 target = null;
 
+
     public Ghost(int x, int y, TiledMap map) {
         super(x, y, map, new Texture("gfx/ghost.png"), 1);
+
+        maxSpeed = 50;
+        rotationSpeed = 0.08f;
 
         ai.init(getX(), getY(), map);
         target = ai.nextPosition();

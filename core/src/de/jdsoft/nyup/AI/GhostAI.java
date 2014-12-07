@@ -10,7 +10,6 @@ import de.jdsoft.nyup.World;
 
 
 public class GhostAI implements EntityAI {
-    private static final float EPSILON = 0.3f;
     public static final float DECAY = 0.99f;
     public static final float DIFFUSE = 0.4f;
 
