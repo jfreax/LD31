@@ -183,9 +183,11 @@ public class MainScreen implements Screen {
         font.setColor(heartColor);
         font.draw(batch, String.valueOf(world.getLevel().getPlayer().getLifes()), 42 + coinBounds.width + 10 + 34, yText);
 
-        // level
+        // level test
         font.setColor(Color.WHITE);
-        font.draw(batch, LevelMapping.map.get(currentLevelNumber).getLevelHelp(), 262, yText);
+        CharSequence lvlText = LevelMapping.map.get(currentLevelNumber).getLevelHelp();
+        BitmapFont.TextBounds lvlBounds = font.getBounds(lvlText);
+        font.draw(batch, LevelMapping.map.get(currentLevelNumber).getLevelHelp(), (Gdx.graphics.getWidth() - lvlBounds.width) / 2.0f, yText);
 
         // steps
         font.setColor(Color.WHITE);
