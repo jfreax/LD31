@@ -18,6 +18,7 @@ import de.jdsoft.nyup.Level.LevelRule;
 import java.util.HashMap;
 
 public class World extends Stage {
+
     public enum SoundID {
         LEVEL_UP,
         LOST,
@@ -32,6 +33,7 @@ public class World extends Stage {
 
     private TiledMap map;
     private final Texture mapTexture;
+    private final Texture laserMapTexture;
     private TiledMapRenderer renderer;
     private LevelRule level;
 
@@ -45,7 +47,7 @@ public class World extends Stage {
     Runnable initListener = null;
     private Runnable endListener = null;
 
-    public World() {
+    public World(LevelRule level) {
         super();
 
         cam = new OrthographicCamera();
@@ -54,6 +56,7 @@ public class World extends Stage {
 
         this.map = new TmxMapLoader().load("maps/level.tmx");
         this.mapTexture = new Texture("gfx/spritemap.png");
+        this.laserMapTexture = new Texture("gfx/spritemap_laser.png");
         this.renderer = new OrthogonalTiledMapRenderer(map, 1f / TILE_SIZE);
 
         soundMap = new HashMap<SoundID, Sound>();
@@ -62,7 +65,7 @@ public class World extends Stage {
         soundMap.put(SoundID.PICKUP_COIN, Gdx.audio.newSound(Gdx.files.internal("sound/pickup_coin.wav")));
         soundMap.put(SoundID.PICKUP_2, Gdx.audio.newSound(Gdx.files.internal("sound/pickup2.wav")));
 
-        level = new Level000();
+        this.level = level;
     }
 
     public void init() {
@@ -144,6 +147,10 @@ public class World extends Stage {
 
     public Texture getMapTexture() {
         return mapTexture;
+    }
+
+    public Texture getLaserMapTexture() {
+        return laserMapTexture;
     }
 
     public boolean isEnd() {

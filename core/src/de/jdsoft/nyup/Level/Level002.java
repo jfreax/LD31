@@ -12,6 +12,12 @@ public class Level002 extends Level000 {
 
     @Override
     public void levelInit() {
+        for (int i = 0; i < 12; i++) {
+            TiledMapTileLayer lMap = (TiledMapTileLayer) map.getLayers().get("laser"+i);
+            initLaserAnimation(lMap, 0.03f);
+            lMap.setVisible(true);
+        }
+
         for (int x = 0; x < pointLayer.getWidth(); x++) {
             for (int y = 0; y < pointLayer.getHeight(); y++) {
                 pointLayer.setCell(x, y, null);
@@ -86,6 +92,6 @@ public class Level002 extends Level000 {
 
     @Override
     public String getLevelHelp() {
-        return "Level 1: \nClassic Pacman. Difficulty++";
+        return "Level 2: \nAttention! Attention!";
     }
 }

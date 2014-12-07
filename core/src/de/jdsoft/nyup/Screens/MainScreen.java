@@ -52,7 +52,7 @@ public class MainScreen implements Screen {
         uiCam.position.set(uiCam.viewportWidth / 2f, uiCam.viewportHeight / 2f, 0);
 
         // game world
-        world = new World();
+        world = new World(LevelMapping.map.get(currentLevelNumber));
         world.init();
 
         world.addInitListener(new Runnable() {

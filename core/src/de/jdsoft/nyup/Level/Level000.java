@@ -6,13 +6,20 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
+import com.badlogic.gdx.maps.tiled.tiles.AnimatedTiledMapTile;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.utils.Array;
 import de.jdsoft.nyup.Entities.Entity;
 import de.jdsoft.nyup.Entities.Ghost;
 import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.World;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Level000 implements LevelRule {
     protected World world;
@@ -25,6 +32,8 @@ public class Level000 implements LevelRule {
     protected int overallCoinsInGame = 0;
     protected TiledMapTileLayer wallLayer;
     protected TiledMapTileLayer pointLayer;
+
+    protected AnimatedTiledMapTile laserTile;
 
     @Override
     public void init(World world) {
@@ -62,6 +71,19 @@ public class Level000 implements LevelRule {
                 }
             }
         }
+
+
+//        Array<StaticTiledMapTile> laserTileArray = new Array<StaticTiledMapTile>(10);
+//        for (int i = 0; i < 10; i++) {
+//            laserTileArray.add(new StaticTiledMapTile(new TextureRegion(world.getLaserMapTexture(), 32*i, 0, 32, 32)));
+//        }
+//
+//        laserTile = new AnimatedTiledMapTile(0.5f, laserTileArray);
+//
+//        TiledMapTileLayer.Cell cellbla = new TiledMapTileLayer.Cell();
+//        cellbla.setTile(laserTile);
+//        wallLayer.setCell(0,3, cellbla);
+
 
 //        TextureRegion goldTextureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
 //        StaticTiledMapTile newGoldTile = new StaticTiledMapTile(goldTextureRegion);
@@ -187,6 +209,35 @@ public class Level000 implements LevelRule {
             }
         }
         return false;
+    }
+
+    public void initLaserAnimation(TiledMapTileLayer layer, float intervall) {
+        String[] names =  { "left", "right", "top", "bottom", "horizontal", "vertical" };
+
+        for (String name : names) {
+            TiledMapTileSet tileset = map.getTileSets().getTileSet("laser");
+
+            Array<StaticTiledMapTile> leftLaserTiles = new Array<StaticTiledMapTile>();
+            for (TiledMapTile tile : tileset) {
+                Object property = tile.getProperties().get(name);
+                if (property != null) {
+                    leftLaserTiles.add(new StaticTiledMapTile(tile.getTextureRegion()));
+                }
+            }
+
+            //TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("laser1");
+            for (int x = 0; x < layer.getWidth(); x++) {
+                for (int y = 0; y < layer.getHeight(); y++) {
+                    TiledMapTileLayer.Cell cell = layer.getCell(x, y);
+                    if (cell != null) {
+                        Object property = cell.getTile().getProperties().get(name);
+                        if (property != null) {
+                            cell.setTile(new AnimatedTiledMapTile(intervall, leftLaserTiles));
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
