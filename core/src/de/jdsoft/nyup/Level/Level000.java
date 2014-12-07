@@ -259,7 +259,7 @@ public class Level000 implements LevelRule {
     }
 
     @Override
-    public Entity getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 }

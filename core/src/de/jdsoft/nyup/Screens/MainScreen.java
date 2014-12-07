@@ -33,6 +33,7 @@ public class MainScreen implements Screen {
     private final TextureRegion coinTexture;
     private final TextureRegion heartTexture;
     private final TextureRegion clockTexture;
+    private final TextureRegion footTexture;
     private final Color coinColor;
     private final Color heartColor;
 
@@ -110,6 +111,7 @@ public class MainScreen implements Screen {
         heartTexture = new TextureRegion(world.getMapTexture(), 160, 64, 32, 32);
         heartColor = Color.valueOf("d95763");
         clockTexture = new TextureRegion(world.getMapTexture(), 160, 96, 32, 32);
+        footTexture = new TextureRegion(world.getMapTexture(), 192, 64, 32, 32);
 
         begin();
     }
@@ -180,6 +182,11 @@ public class MainScreen implements Screen {
         // level
         font.setColor(Color.WHITE);
         font.draw(batch, LevelMapping.map.get(currentLevelNumber).getLevelHelp(), 216, yText);
+
+        // steps
+        font.setColor(Color.WHITE);
+        batch.draw(footTexture, Gdx.graphics.getWidth() - 188, Gdx.graphics.getHeight() - 38, 28, 28);
+        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getSteps()), Gdx.graphics.getWidth() - 152, yText);
 
         // timer
         font.setColor(Color.WHITE);

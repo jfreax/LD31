@@ -2,6 +2,7 @@ package de.jdsoft.nyup.Level;
 
 
 import de.jdsoft.nyup.Entities.Entity;
+import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.World;
 
 import java.util.Random;
@@ -30,5 +31,5 @@ public interface LevelRule {
     public int getMapHeight();
     public int getMapWidth();
 
-    Entity getPlayer();
+    Player getPlayer();
 }
