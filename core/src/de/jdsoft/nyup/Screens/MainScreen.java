@@ -32,6 +32,8 @@ public class MainScreen implements Screen {
 
     private final TextureRegion coinTexture;
     private final TextureRegion heartTexture;
+    private final Color coinColor;
+    private final Color heartColor;
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
@@ -102,7 +104,9 @@ public class MainScreen implements Screen {
         uiStage.addActor(textEffect);
 
         coinTexture = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
+        coinColor = Color.valueOf("ffdf7d");
         heartTexture = new TextureRegion(world.getMapTexture(), 160, 64, 32, 32);
+        heartColor = Color.valueOf("d95763");
 
         begin();
     }
@@ -157,16 +161,21 @@ public class MainScreen implements Screen {
         font.setColor(1, 1, 1, 1);
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 8, 20);
 
+        float yText = Gdx.graphics.getHeight() - 16;
+
         // coins
         batch.draw(coinTexture, 6, Gdx.graphics.getHeight() - 40);
-        font.setColor(Color.valueOf("ffdf7d"));
-        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getPoints()), 42, Gdx.graphics.getHeight() - 16);
+        font.setColor(coinColor);
+        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getPoints()), 42, yText);
 
         // lives
         batch.draw(heartTexture, 64, Gdx.graphics.getHeight() - 40);
-        font.setColor(Color.valueOf("d95763"));
-        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getLifes()), 98, Gdx.graphics.getHeight() - 16);
+        font.setColor(heartColor);
+        font.draw(batch, String.valueOf(world.getLevel().getPlayer().getLifes()), 98, yText);
 
+        // level
+        font.setColor(Color.WHITE);
+        font.draw(batch, LevelMapping.map.get(currentLevelNumber).getLevelHelp(), 216, yText);
 
         batch.end();
     }

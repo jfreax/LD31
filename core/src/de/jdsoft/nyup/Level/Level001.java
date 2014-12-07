@@ -92,6 +92,6 @@ public class Level001 extends Level000 {
 
     @Override
     public String getLevelHelp() {
-        return "Level 1:\nClassic Pacman. Difficulty++";
+        return "Level 1: \nClassic Pacman. Difficulty++";
     }
 }
