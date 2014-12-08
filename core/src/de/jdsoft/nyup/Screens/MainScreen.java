@@ -40,7 +40,7 @@ public class MainScreen implements Screen {
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    int currentLevelNumber = 5;
+    int currentLevelNumber = 6;
 
     InputMultiplexer input;
     private long startTime;
