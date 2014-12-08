@@ -25,7 +25,7 @@ public class Level002 extends Level001 {
         public void run() {
             laserLayer[i].setVisible(!laserLayer[i].isVisible());
             if (laserLayer[i].isVisible()) {
-                world.playSound(World.SoundID.LASER_START, 0.2f);
+                world.playSound(World.SoundID.LASER_START, 0.1f);
             }
         }
     }
