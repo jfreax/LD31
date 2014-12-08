@@ -33,6 +33,8 @@ public class Level000 implements LevelRule {
     protected TiledMapTileLayer pointLayer;
 
     boolean canEatGhosts = false;
+    private Timer.Task unEatTask;
+    private Timer.Task unfastenTask;
 
     @Override
     public void init(World world) {
@@ -173,14 +175,20 @@ public class Level000 implements LevelRule {
 
             case SPEED:
                 world.playSound(World.SoundID.PICKUP_2);
-                player.maxSpeed *= 1.5f;
 
-                Timer.schedule(new Timer.Task() {
+                if (unfastenTask != null) {
+                    unfastenTask.cancel();
+                } else {
+                    player.maxSpeed *= 1.5f;
+                }
+
+                unfastenTask = new Timer.Task() {
                     @Override
                     public void run() {
-                       player.maxSpeed /= 1.5f;
+                        player.maxSpeed /= 1.5f;
                     }
-                }, 1.f);
+                };
+                Timer.schedule(unfastenTask, 1.f);
 
                 break;
         }
@@ -289,12 +297,18 @@ public class Level000 implements LevelRule {
                 ghost.canGetEaten(canEatGhosts);
 
                 if (canEatGhosts) {
-                    Timer.schedule(new Timer.Task() {
+                    if (unEatTask != null) {
+                        unEatTask.cancel();
+                    }
+
+                    unEatTask = new Timer.Task() {
                         @Override
                         public void run() {
                             setCanEatGhosts(false);
                         }
-                    }, 8.0f);
+                    };
+
+                    Timer.schedule(unEatTask, 8.0f);
                 }
             }
         }
