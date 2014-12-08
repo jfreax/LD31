@@ -7,7 +7,7 @@ import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.World;
 
-public class Level004 extends Level003 {
+public class Level004 extends Level002 {
 
     private TiledMapTileLayer actionLayer;
 
@@ -43,7 +43,7 @@ public class Level004 extends Level003 {
             }
 
             for (TiledMapTileLayer aLaserLayer : laserLayer) {
-                if (aLaserLayer.isVisible()) {
+                if (aLaserLayer != null && aLaserLayer.isVisible()) {
                     TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(aLaserLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
                     if (pointCell != null && pointCell.getTile() != null) {
                         timeToLostLife += delta * 1.8f;
@@ -65,6 +65,14 @@ public class Level004 extends Level003 {
     public void checkWonLost(Entity entity) {
         if (player.getLifes() <= 0) {
             world.lost();
+        }
+
+        if (entity instanceof Player) {
+            TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
+
+            if (portalCell != null && portalCell.getTile() != null) {
+                world.won();
+            }
         }
     }
 
