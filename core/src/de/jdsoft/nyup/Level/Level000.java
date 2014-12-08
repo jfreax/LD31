@@ -218,9 +218,7 @@ public class Level000 implements LevelRule {
                         templCell.getTile().getProperties().get("type").equals(type)) {
                     templCell.getTile().getProperties().put("type", type);
                     targetLayer.setCell(x, y, templCell);
-                    if (type.equals("coin")) {
-                        loaded++;
-                    }
+                    loaded++;
                 }
             }
         }
@@ -254,6 +252,7 @@ public class Level000 implements LevelRule {
                         Object property = cell.getTile().getProperties().get(name);
                         if (property != null) {
                             cell.setTile(new AnimatedTiledMapTile(intervall, leftLaserTiles));
+                            cell.getTile().getProperties().put("type", "laser");
                         }
                     }
                 }

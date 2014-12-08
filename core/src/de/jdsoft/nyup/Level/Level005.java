@@ -14,12 +14,12 @@ public class Level005 extends Level002 {
 
 
     private TiledMapTileLayer actionLayer;
+    private TiledMapTileLayer laserLayer1;
 
     @Override
     public void levelInit() {
         overallCoinsInGame = loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level003"), pointLayer, "coin");
         loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level003"), pointLayer, "key");
-        loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level003"), pointLayer, "laser");
 
         TextureRegion mushroomTextureRegion = new TextureRegion(world.getMapTexture(), 128, 96, 32, 32);
         StaticTiledMapTile mushroomTile = new StaticTiledMapTile(mushroomTextureRegion);
@@ -38,12 +38,16 @@ public class Level005 extends Level002 {
             }
         }
 
-        initLaserAnimation((TiledMapTileLayer) map.getLayers().get("level003"), 0.03f);
-        map.getLayers().get("level003").setVisible(true);
-        
+        laserLayer1 = (TiledMapTileLayer) map.getLayers().get("level003_laser");
+        loadTypeFromTo(laserLayer1, pointLayer, "laser");
+
+        initLaserAnimation(pointLayer, 0.03f);
+        //laserLayer1.setVisible(true);
 
         actionLayer = (TiledMapTileLayer) map.getLayers().get("actions");
         actionLayer.setVisible(true);
+
+        firstKey = true;
     }
 
     @Override
@@ -58,9 +62,7 @@ public class Level005 extends Level002 {
                         templCell.getTile().getProperties().get("type").equals(type)) {
                     templCell.getTile().getProperties().put("type", type);
                     targetLayer.setCell(x, y, templCell);
-                    if (type.equals("coin")) {
-                        loaded++;
-                    }
+                    loaded++;
                 }
             }
         }
@@ -84,7 +86,7 @@ public class Level005 extends Level002 {
                         if (cell != null &&
                                 cell.getTile().getProperties().containsKey("type") &&
                                 cell.getTile().getProperties().get("type").equals("laser")) {
-                            if (x > 22 && firstKey) {
+                            if (x > 22 || !firstKey) {
                                 pointLayer.setCell(x, y, null);
                             }
                         }
@@ -107,7 +109,10 @@ public class Level005 extends Level002 {
 
             // die on laser collision
             TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell((TiledMapTileLayer) map.getLayers().get("level003"), player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
-            if (pointCell != null && pointCell.getTile() != null) {
+            if (pointCell != null &&
+                    pointCell.getTile() != null &&
+                    pointCell.getTile().getProperties().containsKey("type") &&
+                    pointCell.getTile().getProperties().get("type").equals("laser")) {
                 world.lost();
             }
         }
