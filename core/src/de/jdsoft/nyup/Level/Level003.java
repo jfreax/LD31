@@ -19,7 +19,25 @@ public class Level003 extends Level002 {
 
     @Override
     public void levelInit() {
-        super.levelInit();
+        overallCoinsInGame = loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level000"), pointLayer, "coin");
+        loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level000_speed"), pointLayer, "speed");
+
+        TextureRegion mushroomTextureRegion = new TextureRegion(world.getMapTexture(), 128, 96, 32, 32);
+        StaticTiledMapTile mushroomTile = new StaticTiledMapTile(mushroomTextureRegion);
+        mushroomTile.getProperties().put("type", "mushroom");
+
+        int numberOfMushrooms = 10;
+        for (int i = 0; i < numberOfMushrooms; i++) {
+            int x = rng.nextInt(wallLayer.getWidth());
+            int y = rng.nextInt(wallLayer.getHeight());
+
+            if (wallLayer.getCell(x, y) == null && pointLayer.getCell(x, y) == null) {
+                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                cell.setTile(mushroomTile);
+
+                pointLayer.setCell(x, y, cell);
+            }
+        }
 
         actionLayer = (TiledMapTileLayer) map.getLayers().get("actions");
         actionLayer.setVisible(true);

@@ -47,57 +47,20 @@ public class Level000 implements LevelRule {
         mapWidth = wallLayer.getWidth();
         mapHeight = wallLayer.getHeight();
 
-        levelInit();
-    }
-
-    @Override
-    public void levelInit() {
         for (int x = 0; x < pointLayer.getWidth(); x++) {
             for (int y = 0; y < pointLayer.getHeight(); y++) {
                 pointLayer.setCell(x, y, null);
             }
         }
 
-        TiledMapTileLayer templatePointL = (TiledMapTileLayer) map.getLayers().get("level000");
-        overallCoinsInGame = 0;
-        for ( int x = 0; x < pointLayer.getWidth(); x++) {
-            for ( int y = 0; y < pointLayer.getHeight(); y++) {
-                TiledMapTileLayer.Cell templCell = templatePointL.getCell(x, y);
-                if (templCell!= null) {
-                    templCell.getTile().getProperties().put("type", "coin");
-                    pointLayer.setCell(x, y, templCell);
-                    overallCoinsInGame++;
-                }
-            }
-        }
+        levelInit();
+    }
 
+    @Override
+    public void levelInit() {
+        overallCoinsInGame = loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level000"), pointLayer, "coin");
+        loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level000_speed"), pointLayer, "speed");
 
-//        Array<StaticTiledMapTile> laserTileArray = new Array<StaticTiledMapTile>(10);
-//        for (int i = 0; i < 10; i++) {
-//            laserTileArray.add(new StaticTiledMapTile(new TextureRegion(world.getLaserMapTexture(), 32*i, 0, 32, 32)));
-//        }
-//
-//        laserTile = new AnimatedTiledMapTile(0.5f, laserTileArray);
-//
-//        TiledMapTileLayer.Cell cellbla = new TiledMapTileLayer.Cell();
-//        cellbla.setTile(laserTile);
-//        wallLayer.setCell(0,3, cellbla);
-
-
-//        TextureRegion goldTextureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
-//        StaticTiledMapTile newGoldTile = new StaticTiledMapTile(goldTextureRegion);
-//        newGoldTile.getProperties().put("type", "gold");
-//        int numberOfGold = 200;
-//        for (int i = 0; i < numberOfGold; i++) {
-//            int x = rng.nextInt(wallLayer.getWidth());
-//            int y = rng.nextInt(wallLayer.getHeight());
-//
-//            if (wallLayer.getCell(x, y) == null) {
-//                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-//                cell.setTile(newGoldTile);
-//                pointLayer.setCell(x, y, cell);
-//            }
-//        }
 
         TextureRegion mushroomTextureRegion = new TextureRegion(world.getMapTexture(), 128, 96, 32, 32);
         StaticTiledMapTile mushroomTile = new StaticTiledMapTile(mushroomTextureRegion);
@@ -120,7 +83,7 @@ public class Level000 implements LevelRule {
     public void initActors() {
         player = new Player(1, 3, map, this);
         world.addActor(player);
-        world.addActor(new Ghost(6, 5, new Color(1.0f, 0.5f, 0.4f, 1f), map, this));
+        world.addActor(new Ghost(12, 5, new Color(1.0f, 0.5f, 0.4f, 1f), map, this));
         world.addActor(new Ghost(14, 12, new Color(0.5f, 1.0f, 0.6f, 1.0f), map, this));
         world.addActor(new Ghost(14, 13, new Color(0.5f, 0.6f, 1.0f, 1.0f), map, this));
         world.setKeyboardFocus(player);
@@ -171,6 +134,8 @@ public class Level000 implements LevelRule {
                         colliedWithTile(TILE_TYPE.MUSHROOM);
                     } else if (pointCell.getTile().getProperties().get("type").equals("coin")) {
                         colliedWithTile(TILE_TYPE.COIN);
+                    } else if (pointCell.getTile().getProperties().get("type").equals("speed")) {
+                        colliedWithTile(TILE_TYPE.SPEED);
                     }
                 }
                 player.points++;
@@ -195,13 +160,26 @@ public class Level000 implements LevelRule {
     public void colliedWithTile(TILE_TYPE type) {
         switch (type) {
             case MUSHROOM:
-                world.playSound(World.SoundID.PICKUP_2);
+                world.playSound(World.SoundID.PICKUP_MUSHROOM);
                 setCanEatGhosts(true);
 
                 break;
             case COIN:
                 world.playSound(World.SoundID.PICKUP_COIN);
                 overallCoinsInGame--;
+                break;
+
+            case SPEED:
+                world.playSound(World.SoundID.PICKUP_2);
+                player.maxSpeed *= 2.0f;
+
+                Timer.schedule(new Timer.Task() {
+                    @Override
+                    public void run() {
+                       player.maxSpeed /= 2.0f;
+                    }
+                }, 0.5f);
+
                 break;
         }
     }
@@ -225,6 +203,25 @@ public class Level000 implements LevelRule {
         }
 
         return false;
+    }
+
+    protected int loadTypeFromTo(TiledMapTileLayer layer, TiledMapTileLayer targetLayer, String type) {
+        int loaded = 0;
+
+        for ( int x = 0; x < layer.getWidth(); x++) {
+            for ( int y = 0; y < layer.getHeight(); y++) {
+                TiledMapTileLayer.Cell templCell = layer.getCell(x, y);
+                if (templCell!= null) {
+                    templCell.getTile().getProperties().put("type", type);
+                    targetLayer.setCell(x, y, templCell);
+                    if (type.equals("coin")) {
+                        loaded++;
+                    }
+                }
+            }
+        }
+
+        return loaded;
     }
 
     private void removeEntity(Entity entity) {

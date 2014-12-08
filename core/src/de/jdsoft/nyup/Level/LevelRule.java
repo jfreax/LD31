@@ -10,7 +10,8 @@ import java.util.Random;
 public interface LevelRule {
     enum TILE_TYPE {
         COIN,
-        MUSHROOM
+        MUSHROOM,
+        SPEED
     }
 
     Random rng = new Random();

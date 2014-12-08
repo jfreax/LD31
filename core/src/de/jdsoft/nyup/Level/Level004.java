@@ -35,7 +35,6 @@ public class Level004 extends Level003 {
     public void act(Entity entity, float delta) {
         super.act(entity, delta);
 
-
         if (entity instanceof Player) {
             timeToLostLife -= delta;
             if (timeToLostLife <= 0.f) {
