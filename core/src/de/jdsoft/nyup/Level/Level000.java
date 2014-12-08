@@ -136,6 +136,8 @@ public class Level000 implements LevelRule {
                         colliedWithTile(TILE_TYPE.COIN);
                     } else if (pointCell.getTile().getProperties().get("type").equals("speed")) {
                         colliedWithTile(TILE_TYPE.SPEED);
+                    } else if (pointCell.getTile().getProperties().get("type").equals("key")) {
+                        colliedWithTile(TILE_TYPE.KEY);
                     }
                 }
                 player.points++;
@@ -211,7 +213,9 @@ public class Level000 implements LevelRule {
         for ( int x = 0; x < layer.getWidth(); x++) {
             for ( int y = 0; y < layer.getHeight(); y++) {
                 TiledMapTileLayer.Cell templCell = layer.getCell(x, y);
-                if (templCell!= null) {
+                if (templCell!= null &&
+                        templCell.getTile().getProperties().containsKey("type") &&
+                        templCell.getTile().getProperties().get("type").equals(type)) {
                     templCell.getTile().getProperties().put("type", type);
                     targetLayer.setCell(x, y, templCell);
                     if (type.equals("coin")) {
@@ -229,7 +233,7 @@ public class Level000 implements LevelRule {
     }
 
     public void initLaserAnimation(TiledMapTileLayer layer, float intervall) {
-        String[] names =  { "left", "right", "top", "bottom", "horizontal", "vertical" };
+        String[] names =  { "left", "right", "top", "bottom", "horizontal", "vertical", "yvertical", "ytop", "ybottom" };
 
         for (String name : names) {
             TiledMapTileSet tileset = map.getTileSets().getTileSet("laser");

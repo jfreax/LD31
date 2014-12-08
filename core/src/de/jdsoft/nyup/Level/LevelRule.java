@@ -11,7 +11,7 @@ public interface LevelRule {
     enum TILE_TYPE {
         COIN,
         MUSHROOM,
-        SPEED
+        KEY, SPEED
     }
 
     Random rng = new Random();
