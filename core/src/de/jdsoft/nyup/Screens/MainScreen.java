@@ -45,6 +45,9 @@ public class MainScreen implements Screen {
     InputMultiplexer input;
     private long startTime;
 
+    private final CharSequence enterText = "Press Enter to continue";
+    private BitmapFont.TextBounds enterTextBounds;
+
     public MainScreen (final Nuyp game) {
         this.game = game;
 
@@ -107,6 +110,8 @@ public class MainScreen implements Screen {
         textEffect = new TextFlashEffect(new BitmapFont(Gdx.files.internal("fonts/chango2.fnt")), "Test");
         textEffect.hide();
         uiStage.addActor(textEffect);
+
+        enterTextBounds = fontBig.getBounds(enterText);
 
         coinTexture = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
         coinColor = Color.valueOf("ffdf7d");
@@ -198,6 +203,12 @@ public class MainScreen implements Screen {
         font.setColor(Color.WHITE);
         batch.draw(clockTexture, Gdx.graphics.getWidth() - 108, Gdx.graphics.getHeight() - 40);
         font.draw(batch, ((System.currentTimeMillis() - startTime) / 1000) + "s", Gdx.graphics.getWidth() - 60, yText);
+
+
+        // press enter to continue - text
+        if (world.isLost()) {
+            fontBig.draw(batch, enterText, (Gdx.graphics.getWidth() - enterTextBounds.width) / 2.0f, Gdx.graphics.getHeight() * 0.1f);
+        }
 
         batch.end();
     }
