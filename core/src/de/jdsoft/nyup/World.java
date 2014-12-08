@@ -126,6 +126,7 @@ public class World extends Stage {
 
     public void lost() {
         playSound(SoundID.LOST);
+        level.levelShutdown();
 
         lost = true;
         end = true;
@@ -138,6 +139,7 @@ public class World extends Stage {
 
     public void won() {
         playSound(SoundID.LEVEL_UP);
+        level.levelShutdown();
 
         end = true;
         pause = true;

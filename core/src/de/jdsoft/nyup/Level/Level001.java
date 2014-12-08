@@ -41,6 +41,11 @@ public class Level001 extends Level000 {
     }
 
     @Override
+    public void levelShutdown() {
+
+    }
+
+    @Override
     public void initActors() {
         player = new Player(1, 3, map, this);
         world.addActor(player);

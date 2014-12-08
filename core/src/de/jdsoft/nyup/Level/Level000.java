@@ -82,6 +82,11 @@ public class Level000 implements LevelRule {
         }
     }
 
+    @Override
+    public void levelShutdown() {
+
+    }
+
     public void initActors() {
         player = new Player(1, 3, map, this);
         world.addActor(player);

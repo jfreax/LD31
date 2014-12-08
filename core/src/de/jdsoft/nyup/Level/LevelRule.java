@@ -19,6 +19,8 @@ public interface LevelRule {
     public void init(World world);
     public void levelInit();
 
+    public void levelShutdown();
+
     public String getLevelHelp();
 
     public void act(Entity entity, float delta);

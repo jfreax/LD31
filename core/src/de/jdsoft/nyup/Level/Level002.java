@@ -12,6 +12,7 @@ public class Level002 extends Level001 {
 
     final TiledMapTileLayer[] laserLayer = new TiledMapTileLayer[12];
     final float[] laserIntervalls = new float[12];
+    protected MyTask[] laserTasks = new MyTask[12];
 
     class MyTask extends Timer.Task {
         private int i;
@@ -37,10 +38,28 @@ public class Level002 extends Level001 {
 
             laserLayer[i] = lLayer;
             laserIntervalls[i] = (rng.nextFloat()+0.2f) * 8.0f;
-            Timer.schedule(new MyTask(i), laserIntervalls[i], laserIntervalls[i]);
+            laserTasks[i] = new MyTask(i);
+            Timer.schedule(laserTasks[i], laserIntervalls[i], laserIntervalls[i]);
         }
 
         super.levelInit();
+    }
+
+    @Override
+    public void levelShutdown() {
+        if (laserTasks != null) {
+            for (MyTask laserTask : laserTasks) {
+                if (laserTask != null) {
+                    laserTask.cancel();
+                }
+            }
+        }
+
+        for (TiledMapTileLayer aLaserLayer : laserLayer) {
+            if (aLaserLayer != null) {
+                aLaserLayer.setVisible(false);
+            }
+        }
     }
 
     @Override

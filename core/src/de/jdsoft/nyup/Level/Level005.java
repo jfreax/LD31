@@ -18,6 +18,20 @@ public class Level005 extends Level002 {
 
     @Override
     public void levelInit() {
+        if (laserTasks != null) {
+            for (MyTask laserTask : laserTasks) {
+                if (laserTask != null) {
+                    laserTask.cancel();
+                }
+            }
+        }
+
+        for (TiledMapTileLayer aLaserLayer : laserLayer) {
+            if (aLaserLayer != null) {
+                aLaserLayer.setVisible(false);
+            }
+        }
+
         overallCoinsInGame = loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level003"), pointLayer, "coin");
         loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level003"), pointLayer, "key");
 
