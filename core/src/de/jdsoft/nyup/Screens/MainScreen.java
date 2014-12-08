@@ -164,14 +164,12 @@ public class MainScreen implements Screen {
         // render ui
         uiCam.update();
 
-        if (Gdx.app.getType() != Application.ApplicationType.Android) {
-            float levelHeightInPixel = world.getLevel().getMapHeight() * World.T2W_Y;
-            shapeRenderer.setProjectionMatrix(uiCam.combined);
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(Color.valueOf("1d273b"));
-            shapeRenderer.rect(0, levelHeightInPixel, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - levelHeightInPixel);
-            shapeRenderer.end();
-        }
+        float levelHeightInPixel = world.getLevel().getMapHeight() * World.T2W_Y;
+        shapeRenderer.setProjectionMatrix(uiCam.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(Color.valueOf("1d273b"));
+        shapeRenderer.rect(0, levelHeightInPixel, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - levelHeightInPixel);
+        shapeRenderer.end();
 
         uiStage.draw();
 
