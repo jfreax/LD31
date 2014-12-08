@@ -28,7 +28,7 @@ public class Collision {
                 int yC = (int) ((y + buffer + j * (TS - 2 * buffer)) / World.TILE_SIZE);
 
                 tmp = layer.getCell(xC, yC);
-                if (tmp != null) {
+                if (tmp != null && (tmp.getTile() == null || !tmp.getTile().getProperties().containsKey("walkable"))) {
                     if (remove) {
                         layer.setCell(xC, yC, null);
                     }

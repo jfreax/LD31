@@ -1,43 +1,24 @@
 package de.jdsoft.nyup.Level;
 
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import de.jdsoft.nyup.Entities.Entity;
 import de.jdsoft.nyup.Entities.Ghost;
 import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.World;
 
-public class Level006 extends Level002 {
-
+public class Level007 extends Level000 {
 
     private TiledMapTileLayer actionLayer;
 
     @Override
     public void levelInit() {
-        overallCoinsInGame = loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level000"), pointLayer, "coin");
-        loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level000_speed"), pointLayer, "speed");
-
-
-        TextureRegion textureRegion = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
-        StaticTiledMapTile coinTile = new StaticTiledMapTile(textureRegion);
-        coinTile.getProperties().put("type", "coin");
-
-
-        for (int i = 0; i < 50; i++) {
-            int x = rng.nextInt(wallLayer.getWidth());
-            int y = rng.nextInt(wallLayer.getHeight());
-
-            if (wallLayer.getCell(x, y) == null && pointLayer.getCell(x, y) == null) {
-                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                cell.setTile(coinTile);
-
-                pointLayer.setCell(x, y, cell);
-            }
-        }
+        overallCoinsInGame = loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level001"), pointLayer, "coin");
+        loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level001_speed"), pointLayer, "speed");
 
 
         TextureRegion mushroomTextureRegion = new TextureRegion(world.getMapTexture(), 128, 96, 32, 32);
@@ -57,9 +38,35 @@ public class Level006 extends Level002 {
             }
         }
 
+        TextureRegion wallTextureRegion = new TextureRegion(world.getMapTexture(), 0, 64, 32, 32);
+        StaticTiledMapTile wallTile = new StaticTiledMapTile(wallTextureRegion);
+        wallTile.getProperties().put("walkable", "1");
+
+        wallLayer.getCell(12, 11).setTile(wallTile);
+        //wallLayer.setCell(12, 11, null);
+
         actionLayer = (TiledMapTileLayer) map.getLayers().get("actions");
         actionLayer.setVisible(true);
+    }
 
+    @Override
+    public void initActors() {
+        player = new Player(1, 3, map, this);
+        world.addActor(player);
+
+        TiledMapTileLayer ghostLayer = (TiledMapTileLayer) map.getLayers().get("ghosts1");
+
+        for (int x = 0; x < ghostLayer.getWidth(); x++) {
+            for (int y = 0; y < ghostLayer.getHeight(); y++) {
+                if (ghostLayer.getCell(x, y) != null) {
+                    Ghost newGhost = new Ghost(x, y, new Color(rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f), map, this);
+                    newGhost.setSpeed(rng.nextInt(50) + 50);
+                    world.addActor(newGhost);
+                }
+            }
+        }
+
+        world.setKeyboardFocus(player);
     }
 
     @Override
@@ -68,27 +75,18 @@ public class Level006 extends Level002 {
             TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
 
             if (portalCell != null && portalCell.getTile() != null) {
-                if (player.points == 42) {
-                    world.won();
-                }
+                world.won();
             }
 
-            boolean foundGhost = false;
-            for (Actor actor : world.getActors()) {
-                if (actor instanceof Ghost) {
-                    foundGhost = true;
-                    break;
-                }
-            }
-
-            if (!foundGhost) {
+            if (player.getSteps() > 20) {
                 world.lost();
             }
         }
     }
 
+
     @Override
     public String getLevelHelp() {
-        return "Level 3: \n42!";
+        return "Level 7: \n20 Steps to haven...";
     }
 }
