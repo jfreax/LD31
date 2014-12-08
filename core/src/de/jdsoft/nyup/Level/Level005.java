@@ -78,7 +78,7 @@ public class Level005 extends Level002 {
 
         switch (type) {
             case KEY:
-                world.playSound(World.SoundID.PICKUP_MUSHROOM);
+                world.playSound(World.SoundID.LASER_DOWN);
 
                 for (int x = 0; x < pointLayer.getWidth(); x++) {
                     for (int y = 0; y < pointLayer.getHeight(); y++) {

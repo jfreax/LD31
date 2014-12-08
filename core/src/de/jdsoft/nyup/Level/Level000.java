@@ -204,6 +204,7 @@ public class Level000 implements LevelRule {
         if (entity1 instanceof Player) {
             if (entity2 instanceof Ghost) {
                 if (canEatGhosts) {
+                    world.playSound(World.SoundID.KILL_GHOST);
                     player.points += 10;
                     removeEntity(entity2);
                 } else {

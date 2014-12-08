@@ -25,7 +25,9 @@ public class World extends Stage {
         PICKUP_COIN,
         PICKUP_MUSHROOM,
         PICKUP_2,
-        LASER_START
+        LASER_START,
+        LASER_DOWN,
+        KILL_GHOST
     }
 
 
@@ -70,6 +72,8 @@ public class World extends Stage {
         soundMap.put(SoundID.PICKUP_MUSHROOM, Gdx.audio.newSound(Gdx.files.internal("sound/pickup_mushroom.wav")));
         soundMap.put(SoundID.PICKUP_2, Gdx.audio.newSound(Gdx.files.internal("sound/pickup2.wav")));
         soundMap.put(SoundID.LASER_START, Gdx.audio.newSound(Gdx.files.internal("sound/laser_start.wav")));
+        soundMap.put(SoundID.LASER_DOWN, Gdx.audio.newSound(Gdx.files.internal("sound/laser_down.wav")));
+        soundMap.put(SoundID.KILL_GHOST, Gdx.audio.newSound(Gdx.files.internal("sound/kill_ghost.wav")));
 
         this.level = level;
     }
