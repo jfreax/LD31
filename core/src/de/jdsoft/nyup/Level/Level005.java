@@ -39,8 +39,8 @@ public class Level005 extends Level002 {
         }
 
         initLaserAnimation((TiledMapTileLayer) map.getLayers().get("level003"), 0.03f);
-
-
+        map.getLayers().get("level003").setVisible(true);
+        
 
         actionLayer = (TiledMapTileLayer) map.getLayers().get("actions");
         actionLayer.setVisible(true);
