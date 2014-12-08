@@ -12,7 +12,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import de.jdsoft.nyup.Entities.Entity;
-import de.jdsoft.nyup.Level.Level000;
 import de.jdsoft.nyup.Level.LevelRule;
 
 import java.util.HashMap;
@@ -30,8 +29,13 @@ public class World extends Stage {
         KILL_GHOST
     }
 
+    public final static float ACTIONBAR_HEIGHT = 50;
 
+    public final static float TILE_X = 40;
+    public final static float TILE_Y = 21;
     public final static float TILE_SIZE = 32.0f;
+    public static float T2W_X;
+    public static float T2W_Y;
 
     private OrthographicCamera cam;
 
@@ -56,8 +60,17 @@ public class World extends Stage {
     public World(LevelRule level) {
         super();
 
+        T2W_X = Gdx.graphics.getWidth() / TILE_X;
+        T2W_Y = Gdx.graphics.getHeight() / (TILE_Y);
+
+        float off = ACTIONBAR_HEIGHT / T2W_Y;
+        T2W_Y = Gdx.graphics.getHeight() / (TILE_Y+off);
+
+        System.out.println(Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
+        Gdx.app.debug("Nuyp", Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
+
         cam = new OrthographicCamera();
-        cam.setToOrtho(false, 40, 22.5f);
+        cam.setToOrtho(false, TILE_X, (TILE_Y+off));
         cam.update();
 
         this.map = new TmxMapLoader().load("maps/level.tmx");

@@ -57,7 +57,7 @@ public class Entity extends Actor {
         this.pointLayer = (TiledMapTileLayer) map.getLayers().get("point");
 
         this.setPosition(x, y);
-        this.setSize(World.TILE_SIZE, World.TILE_SIZE);
+        this.setSize(World.T2W_X, World.T2W_Y);
 
         // animation setup
         Entity.frames = frames;
@@ -171,7 +171,7 @@ public class Entity extends Actor {
                 break;
         }
 
-        if (y < 0.0f || x < 0.0f || y + World.TILE_SIZE >= Nuyp.WORLD_HEIGHT || x + World.TILE_SIZE >= Nuyp.WORLD_WIDTH) {
+        if (y < 0.0f || x < 0.0f || y + World.T2W_Y >= Nuyp.WORLD_HEIGHT-World.ACTIONBAR_HEIGHT || x + World.T2W_X >= Nuyp.WORLD_WIDTH) {
             return false;
         }
 
@@ -196,7 +196,7 @@ public class Entity extends Actor {
     }
 
     public void setPosition(int x, int y) {
-        setPosition(x * World.TILE_SIZE, y * World.TILE_SIZE);
+        setPosition(x * World.T2W_X, y * World.T2W_Y);
     }
 
     private void updateBounds() {

@@ -115,14 +115,14 @@ public class Level005 extends Level002 {
     @Override
     public void checkWonLost(Entity entity) {
         if (entity instanceof Player) {
-            TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
+            TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.T2W_X / 2.f);
 
             if (portalCell != null && portalCell.getTile() != null) {
                 world.won();
             }
 
             // die on laser collision
-            TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell((TiledMapTileLayer) map.getLayers().get("level003"), player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
+            TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell((TiledMapTileLayer) map.getLayers().get("level003"), player.getX(), player.getY(), false, World.T2W_X / 2.f);
             if (pointCell != null &&
                     pointCell.getTile() != null &&
                     pointCell.getTile().getProperties().containsKey("type") &&

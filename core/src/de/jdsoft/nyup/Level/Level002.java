@@ -75,7 +75,7 @@ public class Level002 extends Level001 {
             // die on laser collision
             for (TiledMapTileLayer aLaserLayer : laserLayer) {
                 if (aLaserLayer.isVisible()) {
-                    TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(aLaserLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
+                    TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(aLaserLayer, player.getX(), player.getY(), false, World.T2W_X / 2.f);
                     if (pointCell != null && pointCell.getTile() != null) {
                         world.lost();
                     }

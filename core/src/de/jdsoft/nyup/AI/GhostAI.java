@@ -39,13 +39,14 @@ public class GhostAI implements EntityAI {
         float minValue = Float.MAX_VALUE;
         Vector2 min = new Vector2(posX, posY);
 
-        int step = (int) World.TILE_SIZE;
-        for (int i = -step; i <= step; i += step) {
-            for (int j = -step; j <= step; j += step) {
-                if (posX + i >= 0 && posX + i < (wallLayer.getWidth() - 1) * World.TILE_SIZE && posY + j >= 0 &&
-                        posY + j < (wallLayer.getHeight() - 1) * World.TILE_SIZE) {
-                    if (Collision.getCollisionCell(wallLayer, (posX + i), (posY + j), World.TILE_SIZE / 2.f) == null || level.onWallCollision(ghost)) {
-                        float value = heuristic((int) ((posX + i) / World.TILE_SIZE), (int) ((posY + j) / World.TILE_SIZE));
+        int stepX = (int) World.T2W_X;
+        int stepY = (int) World.T2W_Y;
+        for (int i = -stepX; i <= stepX; i += stepX) {
+            for (int j = -stepY; j <= stepY; j += stepY) {
+                if (posX + i >= 0 && posX + i < (wallLayer.getWidth() - 1) * World.T2W_X && posY + j >= 0 &&
+                        posY + j < (wallLayer.getHeight() - 1) * World.T2W_Y) {
+                    if (Collision.getCollisionCell(wallLayer, (posX + i), (posY + j), World.T2W_X / 2.f) == null || level.onWallCollision(ghost)) {
+                        float value = heuristic((int) ((posX + i) / World.T2W_X), (int) ((posY + j) / World.T2W_Y));
 
                         if (value < minValue) {
                             minValue = value;
@@ -111,7 +112,7 @@ public class GhostAI implements EntityAI {
         this.posX = x;
         this.posY = y;
 
-        markVisited((int) (x / World.TILE_SIZE), (int) (y / World.TILE_SIZE));
+        markVisited((int) (x / World.T2W_X), (int) (y / World.T2W_Y));
     }
 
 

@@ -44,7 +44,7 @@ public class Level004 extends Level002 {
 
             for (TiledMapTileLayer aLaserLayer : laserLayer) {
                 if (aLaserLayer != null && aLaserLayer.isVisible()) {
-                    TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(aLaserLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
+                    TiledMapTileLayer.Cell pointCell = Collision.getCollisionCell(aLaserLayer, player.getX(), player.getY(), false, World.T2W_X / 2.f);
                     if (pointCell != null && pointCell.getTile() != null) {
                         timeToLostLife += delta * 2.0f;
 
@@ -68,7 +68,7 @@ public class Level004 extends Level002 {
         }
 
         if (entity instanceof Player) {
-            TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
+            TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.T2W_X / 2.f);
 
             if (portalCell != null && portalCell.getTile() != null) {
                 world.won();

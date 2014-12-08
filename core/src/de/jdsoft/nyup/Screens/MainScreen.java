@@ -53,8 +53,9 @@ public class MainScreen implements Screen {
         this.game = game;
 
         // setup camera
-        float w = Gdx.graphics.getWidth();
-        float h = Gdx.graphics.getHeight();
+        float w = Nuyp.WORLD_WIDTH = Gdx.graphics.getWidth();
+        float h = Nuyp.WORLD_HEIGHT = Gdx.graphics.getHeight();
+        //Nuyp.WORLD_HEIGHT = (int) (h - World.ACTIONBAR_HEIGHT);
 
         uiCam = new OrthographicCamera(w, h);
         uiCam.position.set(uiCam.viewportWidth / 2f, uiCam.viewportHeight / 2f, 0);
@@ -167,7 +168,7 @@ public class MainScreen implements Screen {
         uiCam.update();
 
         if (Gdx.app.getType() != Application.ApplicationType.Android) {
-            float levelHeightInPixel = world.getLevel().getMapHeight() * World.TILE_SIZE;
+            float levelHeightInPixel = world.getLevel().getMapHeight() * World.T2W_Y;
             shapeRenderer.setProjectionMatrix(uiCam.combined);
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(Color.valueOf("1d273b"));

@@ -65,7 +65,7 @@ public class Level006 extends Level002 {
     @Override
     public void checkWonLost(Entity entity) {
         if (entity instanceof Player) {
-            TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.TILE_SIZE / 2.f);
+            TiledMapTileLayer.Cell portalCell = Collision.getCollisionCell(actionLayer, player.getX(), player.getY(), false, World.T2W_X / 2.f);
 
             if (portalCell != null && portalCell.getTile() != null) {
                 if (player.points == 42) {
