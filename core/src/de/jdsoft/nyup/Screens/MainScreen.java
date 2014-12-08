@@ -1,5 +1,6 @@
 package de.jdsoft.nyup.Screens;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
@@ -40,12 +41,12 @@ public class MainScreen implements Screen {
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    int currentLevelNumber = 4;
+    int currentLevelNumber = 0;
 
     InputMultiplexer input;
     private long startTime;
 
-    private final CharSequence enterText = "Press Enter to continue";
+    private final CharSequence enterText;
     private BitmapFont.TextBounds enterTextBounds;
 
     public MainScreen (final Nuyp game) {
@@ -111,6 +112,12 @@ public class MainScreen implements Screen {
         textEffect.hide();
         uiStage.addActor(textEffect);
 
+        if (Gdx.app.getType() == Application.ApplicationType.Android) {
+            enterText = "Click to continue";
+        } else {
+            enterText = "Press Enter to continue";
+        }
+
         enterTextBounds = fontBig.getBounds(enterText);
 
         coinTexture = new TextureRegion(world.getMapTexture(), 96, 64, 32, 32);
@@ -158,12 +165,15 @@ public class MainScreen implements Screen {
 
         // render ui
         uiCam.update();
-        float levelHeightInPixel = world.getLevel().getMapHeight() * World.TILE_SIZE;
-        shapeRenderer.setProjectionMatrix(uiCam.combined);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.valueOf("1d273b"));
-        shapeRenderer.rect(0, levelHeightInPixel, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()-levelHeightInPixel);
-        shapeRenderer.end();
+
+        if (Gdx.app.getType() != Application.ApplicationType.Android) {
+            float levelHeightInPixel = world.getLevel().getMapHeight() * World.TILE_SIZE;
+            shapeRenderer.setProjectionMatrix(uiCam.combined);
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.valueOf("1d273b"));
+            shapeRenderer.rect(0, levelHeightInPixel, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - levelHeightInPixel);
+            shapeRenderer.end();
+        }
 
         uiStage.draw();
 
