@@ -109,6 +109,9 @@ public class Level005 extends Level002 {
                 firstKey = false;
 
                 break;
+            case LASER:
+                world.lost();
+                break;
         }
     }
 

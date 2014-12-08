@@ -155,6 +155,8 @@ public class Level000 implements LevelRule {
                         colliedWithTile(TILE_TYPE.SPEED);
                     } else if (pointCell.getTile().getProperties().get("type").equals("key")) {
                         colliedWithTile(TILE_TYPE.KEY);
+                    } else if (pointCell.getTile().getProperties().get("type").equals("laser")) {
+                        colliedWithTile(TILE_TYPE.LASER);
                     }
                 }
                 player.points++;
