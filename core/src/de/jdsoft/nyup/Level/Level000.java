@@ -186,6 +186,7 @@ public class Level000 implements LevelRule {
                     @Override
                     public void run() {
                         player.maxSpeed /= 1.5f;
+                        unfastenTask = null;
                     }
                 };
                 Timer.schedule(unfastenTask, 1.f);
