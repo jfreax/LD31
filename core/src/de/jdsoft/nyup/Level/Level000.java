@@ -171,14 +171,14 @@ public class Level000 implements LevelRule {
 
             case SPEED:
                 world.playSound(World.SoundID.PICKUP_2);
-                player.maxSpeed *= 2.0f;
+                player.maxSpeed *= 1.5f;
 
                 Timer.schedule(new Timer.Task() {
                     @Override
                     public void run() {
-                       player.maxSpeed /= 2.0f;
+                       player.maxSpeed /= 1.5f;
                     }
-                }, 0.5f);
+                }, 1.f);
 
                 break;
         }
