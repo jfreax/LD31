@@ -303,6 +303,11 @@ public class Level000 implements LevelRule {
     }
 
     @Override
+    public World getWorld() {
+        return world;
+    }
+
+    @Override
     public Player getPlayer() {
         return player;
     }

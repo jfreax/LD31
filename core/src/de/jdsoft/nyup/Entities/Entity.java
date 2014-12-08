@@ -19,7 +19,8 @@ import de.jdsoft.nyup.World;
 
 
 public class Entity extends Actor {
-    private LevelRule level;
+    protected TiledMap map;
+    protected LevelRule level;
     private Rectangle bounds = new Rectangle();
     private int lifes = 1;
 
@@ -50,6 +51,7 @@ public class Entity extends Actor {
 
     public Entity(int x, int y, TiledMap map, Texture animTexture, int frames, LevelRule level) {
         super();
+        this.map = map;
 
         this.level = level;
 

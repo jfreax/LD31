@@ -18,5 +18,6 @@ public class LevelMapping {
         map.add(new Level005());
         map.add(new Level006());
         map.add(new Level007());
+        //map.add(new Level008());
     }
 }

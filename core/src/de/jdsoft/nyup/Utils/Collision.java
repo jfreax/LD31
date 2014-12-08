@@ -19,7 +19,7 @@ public class Collision {
 
     public static TiledMapTileLayer.Cell getCollisionCell(TiledMapTileLayer layer, float x, float y, boolean remove, float buffer) {
         TiledMapTileLayer.Cell tmp;
-        float TS = World.TILE_SIZE;
+        float TS = World.TILE_SIZE-2;
 
         // quick and dirty, really dirty
         for (int i = 0; i <= 1; i++) {

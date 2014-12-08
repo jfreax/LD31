@@ -40,6 +40,7 @@ public interface LevelRule {
 
     public int getMapHeight();
     public int getMapWidth();
+    public World getWorld();
 
     Player getPlayer();
 }

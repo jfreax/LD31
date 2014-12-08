@@ -23,6 +23,7 @@ public class GhostAI implements EntityAI {
     public float[][] grid;
     private Ghost ghost;
     private LevelRule level;
+    private float aggression;
 
     @Override
     public void init(float x, float y, TiledMap map, Entity ghost, LevelRule level) {
@@ -30,6 +31,8 @@ public class GhostAI implements EntityAI {
         this.level = level;
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
         grid = new float[wallLayer.getWidth()][wallLayer.getHeight()];
+
+        aggression = (int) (Math.random() * 5);
 
         this.setPosition(x, y);
     }
@@ -51,9 +54,9 @@ public class GhostAI implements EntityAI {
                         if (value < minValue) {
                             minValue = value;
                             min = new Vector2(posX + i, posY + j);
-                        } else if ((Math.random() > 0.8)) {
-                            min = new Vector2(posX + i, posY + j);
-                        }
+                        } //else if ((Math.random() > 0.8)) {
+                        //    min = new Vector2(posX + i, posY + j);
+                        //}
                     }
                 }
             }
@@ -116,4 +119,15 @@ public class GhostAI implements EntityAI {
     }
 
 
+    public void addGridPoint(int newPositionX, int newPositionY) {
+        if (ghost.isCanGetEaten()) {
+            grid[newPositionX][newPositionY] += aggression;
+        } else {
+            grid[newPositionX][newPositionY] -= aggression;
+        }
+    }
+
+    public void setAggression(float aggression) {
+        this.aggression = aggression;
+    }
 }

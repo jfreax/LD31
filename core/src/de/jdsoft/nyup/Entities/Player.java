@@ -3,6 +3,7 @@ package de.jdsoft.nyup.Entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import de.jdsoft.nyup.Level.LevelRule;
 import de.jdsoft.nyup.World;
 
@@ -30,6 +31,15 @@ public class Player extends Entity {
             oldPositionY = newPositionY;
 
             steps++;
+
+            for(Actor actor : level.getWorld().getActors()) {
+                if (actor instanceof Ghost) {
+                    Ghost ghost = (Ghost) actor;
+
+                    ghost.getAI().addGridPoint(newPositionX, newPositionY);
+                }
+            }
+
         }
     }
 

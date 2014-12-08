@@ -2,19 +2,18 @@ package de.jdsoft.nyup.Entities;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Vector2;
 import de.jdsoft.nyup.AI.EntityAI;
 import de.jdsoft.nyup.AI.GhostAI;
 import de.jdsoft.nyup.Level.LevelRule;
 import de.jdsoft.nyup.Screens.MainScreen;
-import de.jdsoft.nyup.Utils.Vector2i;
 import de.jdsoft.nyup.World;
 
 public class Ghost extends Entity {
@@ -114,6 +113,29 @@ public class Ghost extends Entity {
                     shape.rect(i * 32, j * 32, 32, 32);
                 }
             }
+
+            float x = getX();
+            float y = getY();
+
+            float buffer = World.T2W_X / 5.0f;
+            float TS = World.TILE_SIZE;
+
+            TiledMapTileLayer.Cell tmp;
+
+
+            shape.setColor(Color.PINK);
+            for (int i = -10; i <= 10; i++) {
+                for (int j = -10; j <= 10; j++) {
+                    int xC = (int) ((x + buffer + i * (TS - 2 * buffer)) / World.T2W_X);
+                    int yC = (int) ((y + buffer + j * (TS - 2 * buffer)) / World.T2W_Y);
+
+                    tmp = wallLayer.getCell(xC, yC);
+                    if (tmp != null) {
+                        shape.circle(xC * World.T2W_X + (World.T2W_X/2.0f), yC * World.T2W_Y + (World.T2W_Y/2.0f), 10);
+                    }
+                }
+            }
+
             shape.end();
             batch.begin();
         }
@@ -122,4 +144,13 @@ public class Ghost extends Entity {
     public void canGetEaten(boolean b) {
         this.canGetEaten = b;
     }
+
+    public boolean isCanGetEaten() {
+        return canGetEaten;
+    }
+
+    public GhostAI getAI() {
+        return (GhostAI) ai;
+    }
+
 }
