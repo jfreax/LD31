@@ -37,6 +37,11 @@ public class NuypInput implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if (world.isEnd()) {
+                world.init();
+                return true;
+        }
+
         return false;
     }
 
