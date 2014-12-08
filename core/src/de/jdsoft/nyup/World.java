@@ -3,6 +3,7 @@ package de.jdsoft.nyup;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -60,18 +61,7 @@ public class World extends Stage {
     public World(LevelRule level) {
         super();
 
-        T2W_X = Gdx.graphics.getWidth() / TILE_X;
-        T2W_Y = Gdx.graphics.getHeight() / (TILE_Y);
-
-        float off = ACTIONBAR_HEIGHT / T2W_Y;
-        T2W_Y = Gdx.graphics.getHeight() / (TILE_Y+off);
-
-        System.out.println(Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
-        Gdx.app.debug("Nuyp", Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
-
-        cam = new OrthographicCamera();
-        cam.setToOrtho(false, TILE_X, (TILE_Y+off));
-        cam.update();
+        updateCamera();
 
         this.map = new TmxMapLoader().load("maps/level.tmx");
         this.mapTexture = new Texture("gfx/spritemap.png");
@@ -102,6 +92,18 @@ public class World extends Stage {
         if (initListener != null) {
             initListener.run();
         }
+    }
+
+    public void updateCamera() {
+        T2W_X = Gdx.graphics.getWidth() / TILE_X;
+        T2W_Y = Gdx.graphics.getHeight() / (TILE_Y);
+
+        float off = ACTIONBAR_HEIGHT / T2W_Y;
+        T2W_Y = Gdx.graphics.getHeight() / (TILE_Y+off);
+
+        cam = new OrthographicCamera();
+        cam.setToOrtho(false, TILE_X, (TILE_Y+off));
+        cam.update();
     }
 
     @Override
@@ -211,5 +213,9 @@ public class World extends Stage {
 
     public int getOverallPoints() {
         return overallPoints;
+    }
+
+    public Camera getCamera() {
+        return cam;
     }
 }

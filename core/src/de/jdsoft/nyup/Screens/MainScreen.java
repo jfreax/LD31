@@ -4,10 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -41,7 +38,7 @@ public class MainScreen implements Screen {
 
     private final ShapeRenderer shapeRenderer = new ShapeRenderer();
 
-    int currentLevelNumber = 0;
+    int currentLevelNumber = 2;
 
     InputMultiplexer input;
     private long startTime;
@@ -226,9 +223,14 @@ public class MainScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-//        cam.viewportWidth = width;
-//        cam.viewportHeight = height;
-//        cam.update();
+//        Nuyp.WORLD_WIDTH = width;
+//        Nuyp.WORLD_HEIGHT = height;
+//
+//        uiCam.viewportWidth = width;
+//        uiCam.viewportHeight = height;
+//        uiCam.update();
+//
+//        world.updateCamera();
     }
 
     @Override
