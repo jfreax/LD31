@@ -17,8 +17,8 @@ public class Level007 extends Level000 {
 
     @Override
     public void levelInit() {
-        overallCoinsInGame = loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level001"), pointLayer, "coin");
-        loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level001_speed"), pointLayer, "speed");
+        overallCoinsInGame = loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level000"), pointLayer, "coin");
+        loadTypeFromTo((TiledMapTileLayer) map.getLayers().get("level000_speed"), pointLayer, "speed");
 
 
         TextureRegion mushroomTextureRegion = new TextureRegion(world.getMapTexture(), 128, 96, 32, 32);
@@ -55,16 +55,6 @@ public class Level007 extends Level000 {
         world.addActor(player);
 
         TiledMapTileLayer ghostLayer = (TiledMapTileLayer) map.getLayers().get("ghosts1");
-
-        for (int x = 0; x < ghostLayer.getWidth(); x++) {
-            for (int y = 0; y < ghostLayer.getHeight(); y++) {
-                if (ghostLayer.getCell(x, y) != null) {
-                    Ghost newGhost = new Ghost(x, y, new Color(rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f), map, this);
-                    newGhost.setSpeed(rng.nextInt(50) + 50);
-                    world.addActor(newGhost);
-                }
-            }
-        }
 
         world.setKeyboardFocus(player);
     }
