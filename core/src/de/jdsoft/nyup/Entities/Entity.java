@@ -161,17 +161,17 @@ public class Entity extends Actor {
 
         switch (direction) {
             case NORTH:
-                y += delta * maxSpeed;
+                y += delta * getSpeed();
                 break;
             case EAST:
-                x += delta * maxSpeed;
+                x += delta * getSpeed();
                 break;
             case SOUTH:
-                y -= delta * maxSpeed;
+                y -= delta * getSpeed();
                 break;
             case WEST: /* fall through */
             default:
-                x -= delta * maxSpeed;
+                x -= delta * getSpeed();
                 break;
         }
 
@@ -184,6 +184,10 @@ public class Entity extends Actor {
 
     public void setSpeed(int speed) {
         this.maxSpeed = speed;
+    }
+
+    public float getSpeed() {
+        return maxSpeed*getScaleX();
     }
 
 

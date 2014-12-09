@@ -53,19 +53,19 @@ public class Ghost extends Entity {
         }
 
         if (target.x < getX()) {
-            moveBy(-delta * maxSpeed, 0);
+            moveBy(-delta * getSpeed(), 0);
             //setDirection(Direction.WEST);
         }
         if (target.x > getX()) {
-            moveBy(delta * maxSpeed, 0);
+            moveBy(delta * getSpeed(), 0);
             //setDirection(Direction.EAST);
         }
         if (target.y > getY()) {
-            moveBy(0, delta * maxSpeed);
+            moveBy(0, delta * getSpeed());
             //setDirection(Direction.NORTH);
         }
         if (target.y < getY()) {
-            moveBy(0, -delta * maxSpeed);
+            moveBy(0, -delta * getSpeed());
             //setDirection(Direction.SOUTH);
         }
     }

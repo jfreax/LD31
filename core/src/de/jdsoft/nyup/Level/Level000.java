@@ -113,7 +113,7 @@ public class Level000 implements LevelRule {
                     Gdx.input.isKeyPressed(Input.Keys.A) ||
                     (Gdx.app.getType() == Application.ApplicationType.Android && Gdx.input.getDeltaX() < 0.0f)) {
                 if (player.canGoTo(Entity.Direction.WEST, delta)) {
-                    player.moveBy(-delta * player.maxSpeed, 0);
+                    player.moveBy(-delta * player.getSpeed(), 0);
                 }
                 player.setDirection(Entity.Direction.WEST);
             }
@@ -121,7 +121,7 @@ public class Level000 implements LevelRule {
                     Gdx.input.isKeyPressed(Input.Keys.D) ||
                     (Gdx.app.getType() == Application.ApplicationType.Android && Gdx.input.getDeltaX() > 0.0f)) {
                 if (player.canGoTo(Entity.Direction.EAST, delta)) {
-                    player.moveBy(delta * player.maxSpeed, 0);
+                    player.moveBy(delta * player.getSpeed(), 0);
                 }
                 player.setDirection(Entity.Direction.EAST);
             }
@@ -129,7 +129,7 @@ public class Level000 implements LevelRule {
                     Gdx.input.isKeyPressed(Input.Keys.W) ||
                     (Gdx.app.getType() == Application.ApplicationType.Android && Gdx.input.getDeltaY() < 0.0f)) {
                 if (player.canGoTo(Entity.Direction.NORTH, delta)) {
-                    player.moveBy(0, delta * player.maxSpeed);
+                    player.moveBy(0, delta * player.getSpeed());
                 }
                 player.setDirection(Entity.Direction.NORTH);
             }
@@ -137,7 +137,7 @@ public class Level000 implements LevelRule {
                     Gdx.input.isKeyPressed(Input.Keys.S) ||
                     (Gdx.app.getType() == Application.ApplicationType.Android && Gdx.input.getDeltaY() > 0.0f)) {
                 if (player.canGoTo(Entity.Direction.SOUTH, delta)) {
-                    player.moveBy(0, -delta * player.maxSpeed);
+                    player.moveBy(0, -delta * player.getSpeed());
                 }
                 player.setDirection(Entity.Direction.SOUTH);
             }
