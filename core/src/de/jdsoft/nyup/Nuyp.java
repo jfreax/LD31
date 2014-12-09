@@ -18,4 +18,12 @@ public class Nuyp extends Game {
 		super.dispose();
 		Gdx.app.exit();
 	}
+
+	public static float getScaleFactorX() {
+		return WORLD_WIDTH / 1280.f;
+	}
+
+	public static float getScaleFactorY() {
+		return WORLD_HEIGHT / 720.f;
+	}
 }

@@ -73,6 +73,8 @@ public class Entity extends Actor {
         animation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         stateTime = 0f;
 
+        setScale(Nuyp.getScaleFactorX(), Nuyp.getScaleFactorY());
+
         // actions
         pool = new Pool<RotateToAction>() {
             protected RotateToAction newObject() {
@@ -99,7 +101,7 @@ public class Entity extends Actor {
                 currentFrame, getX(), getY(),
                 currentFrame.getRegionWidth() / 2, currentFrame.getRegionHeight() / 2,
                 currentFrame.getRegionWidth(), currentFrame.getRegionHeight(),
-                1f, 1f,
+                getScaleX(), getScaleY(),
                 getRotation());
     }
 

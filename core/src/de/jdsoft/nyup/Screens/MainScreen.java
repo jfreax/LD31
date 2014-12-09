@@ -52,7 +52,6 @@ public class MainScreen implements Screen {
         // setup camera
         float w = Nuyp.WORLD_WIDTH = Gdx.graphics.getWidth();
         float h = Nuyp.WORLD_HEIGHT = Gdx.graphics.getHeight();
-        //Nuyp.WORLD_HEIGHT = (int) (h - World.ACTIONBAR_HEIGHT);
 
         uiCam = new OrthographicCamera(w, h);
         uiCam.position.set(uiCam.viewportWidth / 2f, uiCam.viewportHeight / 2f, 0);
