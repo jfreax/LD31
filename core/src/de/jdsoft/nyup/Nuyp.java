@@ -5,6 +5,8 @@ import com.badlogic.gdx.Gdx;
 import de.jdsoft.nyup.Screens.MainScreen;
 
 public class Nuyp extends Game {
+	public static boolean DEBUG = false;
+
 	public static int WORLD_WIDTH = 1280;
 	public static int WORLD_HEIGHT = 720;
 

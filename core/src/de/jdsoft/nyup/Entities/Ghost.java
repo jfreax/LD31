@@ -13,11 +13,11 @@ import com.badlogic.gdx.math.Vector2;
 import de.jdsoft.nyup.AI.EntityAI;
 import de.jdsoft.nyup.AI.GhostAI;
 import de.jdsoft.nyup.Level.LevelRule;
+import de.jdsoft.nyup.Nuyp;
 import de.jdsoft.nyup.Screens.MainScreen;
 import de.jdsoft.nyup.World;
 
 public class Ghost extends Entity {
-    final static boolean debug = false;
 
     private static final float EPSILON = 3.f;
     EntityAI ai = new GhostAI();
@@ -85,7 +85,7 @@ public class Ghost extends Entity {
 
         batch.setColor(oldColor);
 
-        if (debug) {
+        if (Nuyp.DEBUG) {
             batch.end();
 
             MainScreen.uiCam.update();
@@ -124,8 +124,8 @@ public class Ghost extends Entity {
 
 
             shape.setColor(Color.PINK);
-            for (int i = -10; i <= 10; i++) {
-                for (int j = -10; j <= 10; j++) {
+            for (int i = 0; i <= 1; i++) {
+                for (int j = 0; j <= 1; j++) {
                     int xC = (int) ((x + buffer + i * (TS - 2 * buffer)) / World.T2W_X);
                     int yC = (int) ((y + buffer + j * (TS - 2 * buffer)) / World.T2W_Y);
 

@@ -37,7 +37,7 @@ public class Entity extends Actor {
 
     public int points = 0;
 
-    public float maxSpeed = 100.0f;
+    public float maxSpeed = 120.0f;
     protected float rotationSpeed = 0.15f;
 
 

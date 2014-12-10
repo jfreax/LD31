@@ -22,6 +22,11 @@ public class NuypInput implements InputProcessor {
             }
         }
 
+        if (keycode == Input.Keys.I) {
+            Nuyp.DEBUG = !Nuyp.DEBUG;
+            return true;
+        }
+
         return false;
     }
 
