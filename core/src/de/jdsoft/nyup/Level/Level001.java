@@ -26,7 +26,7 @@ public class Level001 extends Level000 {
         StaticTiledMapTile mushroomTile = new StaticTiledMapTile(mushroomTextureRegion);
         mushroomTile.getProperties().put("type", "mushroom");
 
-        int numberOfMushrooms = 15;
+        int numberOfMushrooms = 25;
         for (int i = 0; i < numberOfMushrooms; i++) {
             int x = rng.nextInt(wallLayer.getWidth());
             int y = rng.nextInt(wallLayer.getHeight());
@@ -56,7 +56,7 @@ public class Level001 extends Level000 {
             for (int y = 0; y < ghostLayer.getHeight(); y++) {
                 if (ghostLayer.getCell(x, y) != null) {
                     Ghost newGhost = new Ghost(x, y, new Color(rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f), map, this);
-                    newGhost.setSpeed(rng.nextInt(50) + 50);
+                    newGhost.setSpeed(rng.nextInt(40) + 20);
                     world.addActor(newGhost);
                 }
             }

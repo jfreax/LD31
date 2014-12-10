@@ -32,7 +32,7 @@ public class GhostAI implements EntityAI {
         this.wallLayer = (TiledMapTileLayer) map.getLayers().get("wall");
         grid = new float[wallLayer.getWidth()][wallLayer.getHeight()];
 
-        aggression = (int) (Math.random() * 5);
+        aggression = (int) (Math.random() * 4);
 
         this.setPosition(x, y);
     }

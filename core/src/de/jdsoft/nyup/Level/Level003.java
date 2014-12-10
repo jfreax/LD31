@@ -1,13 +1,10 @@
 package de.jdsoft.nyup.Level;
 
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
-import com.badlogic.gdx.utils.Timer;
 import de.jdsoft.nyup.Entities.Entity;
-import de.jdsoft.nyup.Entities.Ghost;
 import de.jdsoft.nyup.Entities.Player;
 import de.jdsoft.nyup.Utils.Collision;
 import de.jdsoft.nyup.World;
@@ -26,7 +23,7 @@ public class Level003 extends Level002 {
         StaticTiledMapTile mushroomTile = new StaticTiledMapTile(mushroomTextureRegion);
         mushroomTile.getProperties().put("type", "mushroom");
 
-        int numberOfMushrooms = 10;
+        int numberOfMushrooms = 15;
         for (int i = 0; i < numberOfMushrooms; i++) {
             int x = rng.nextInt(wallLayer.getWidth());
             int y = rng.nextInt(wallLayer.getHeight());

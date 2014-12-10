@@ -33,7 +33,7 @@ public class Ghost extends Entity {
 
         this.color = color;
 
-        maxSpeed = 50;
+        maxSpeed = 45;
         rotationSpeed = 0.08f;
 
         ai.init(getX(), getY(), map, this, level);
